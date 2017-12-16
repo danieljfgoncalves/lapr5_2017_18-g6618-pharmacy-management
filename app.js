@@ -50,7 +50,7 @@ app.use('/', index);
 app.use('/api/', pharmacies);
 
 //test
-//var order=require('./test/test-routes');
+var order=require('./test/test-routes');
 
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 // catch 404 and forward to error handler
