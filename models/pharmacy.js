@@ -4,7 +4,6 @@ var mongoose = require("mongoose");
 
 var PharmacySchema = mongoose.Schema({   
     name: String,    
-    local: String,
     location: {type: mongoose.Schema.Types.ObjectId,  ref:'Location', required: true},    
     stocks: [{       
         quantity: Number,
