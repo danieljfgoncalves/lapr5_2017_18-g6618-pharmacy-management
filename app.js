@@ -17,14 +17,19 @@ var config=require('./config');
 var mongoose=require('mongoose');
 var mongoOptions = { useMongoClient: true };
 
-mongoose.connect(config.database, mongoOptions, error => {
+mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
   if (error) {
     console.log('Error connecting to the database. ' + error);
   } else {
-    console.log('Connected to Database: ' + config.database);
+    //if(app.get('env')!= 'test') 
+    console.log('Connected to Database: ' + config.mongoURI[app.get('env')]);
   }
 });
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+if (app.get('env') != 'test') app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -37,25 +42,23 @@ app.use(morgan('dev'));
 
 // ROUTES FOR OUR API
 // =============================================================================
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-var router = express.Router();
-router.get('/', function (req, res) {
-    res.json({ message: 'Welcome to PharmacyManagement!' });
-});
-app.use('/home', router);
-
-// ========= ROUTES ======================
 var pharmacies=require('./routes/pharmacies_route');
+var index = require('./routes/index');
 
 // REGISTER OUR ROUTES ------------------
+app.use('/', index);
 app.use('/api/', pharmacies);
 
+//test
+//var order=require('./test/test-routes');
+
+// test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+  if(req) console.log('PharmacyManagement working');
 });
 
 // error handler
@@ -68,8 +71,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
-//test
-var order=require('./test/test-routes');
 
 module.exports = app;

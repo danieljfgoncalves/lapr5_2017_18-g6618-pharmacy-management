@@ -2,10 +2,10 @@
 
 var mongoose = require("mongoose");
 
-var PharmacySchema = mongoose.Schema({   
+var PharmacySchema = mongoose.Schema({ 
     name: String,    
     location: {type: mongoose.Schema.Types.ObjectId,  ref:'Location', required: true},    
-    stocks: [{       
+    stocks: [{   
         quantity: Number,
         presentation: {type: mongoose.Schema.Types.ObjectId,  ref:'Presentation', required: true},
     }]    

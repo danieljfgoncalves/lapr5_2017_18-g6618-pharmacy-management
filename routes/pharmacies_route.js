@@ -2,9 +2,13 @@
 
 var express     = require('express');
 var router      = express.Router();
+var middlewares = require('../middleware');
 
 // require controller modules
 var pharmaciesController=require('../controllers/pharmaciesController');
+
+// Add Authentication middleware
+router.use('/pharmacies_route', middlewares.authenticate);
 
 // GET /api/pharmacy
 router.get('/pharmacy', pharmaciesController.get_pharmacies);
@@ -16,6 +20,6 @@ router.get('/pharmacy/:id', pharmaciesController.get_pharmacy);
 router.get('/pharmacy/:pharmacyId/stock/:stockId', pharmaciesController.get_pharmacy_stock);
 
 // POST /api/pharmacy
-router.get('/pharmacy', pharmaciesController.post_pharmacy);
+router.post('/pharmacy', pharmaciesController.post_pharmacy);
 
 module.exports=router;
