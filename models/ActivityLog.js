@@ -5,7 +5,10 @@ var mongoose = require("mongoose"),
 var Schema = mongoose.Schema;
 
 var ActivityLogSchema = new Schema({
-    date: Date
+    date: {
+        type: Date,
+        default: Date.now
+    },
 },
     {
         collection : 'log',

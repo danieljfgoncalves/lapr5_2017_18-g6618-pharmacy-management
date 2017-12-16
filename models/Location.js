@@ -1,3 +1,5 @@
+// models/Location.js
+
 var mongoose = require("mongoose");
 
 var LocationSchema = mongoose.Schema({

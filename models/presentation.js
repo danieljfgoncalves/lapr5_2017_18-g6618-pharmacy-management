@@ -1,4 +1,4 @@
-// models/presentation.js
+// models/Presentation.js
 
 var mongoose = require("mongoose");
 
