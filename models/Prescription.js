@@ -1,6 +1,7 @@
 // models/Prescription.js
 
 var mongoose = require("mongoose");
+var PresentationSchema = require('./Presentation');
 
 var FillSchema = new Schema({
     date: {
@@ -17,7 +18,7 @@ var PrescriptionSchema = new Schema({
         type: Date
     },
     presentation: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: PresentationSchema,
         ref: 'Presentation',
         required: true
     },

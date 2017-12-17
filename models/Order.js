@@ -5,13 +5,14 @@ var mongoose = require('mongoose'),
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
 var LocationSchema = require('./Location').schema;
+var PresentationSchema = require('./Presentation');
 
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {
         type: Number, min: 1
     },
     period_day: String,
-    presentation: {type: mongoose.Schema.Types.ObjectId,  ref:'Presentation', required: true},
+    presentation: {type: PresentationSchema,  ref:'Presentation', required: true},
     location: {type: LocationSchema,  ref:'Location', required: true},    
 });
 

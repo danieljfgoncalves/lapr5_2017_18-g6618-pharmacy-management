@@ -4,10 +4,11 @@ var mongoose = require('mongoose'),
     extend = require('mongoose-schema-extend');
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
+var PresentationSchema = require('./Presentation');
 
 var RestockSchema = ActivityLog.extend({
     quantity: Number,
-    presentation: {type: mongoose.Schema.Types.ObjectId,  ref:'Presentation', required: true},
+    presentation: {type: PresentationSchema,  ref:'Presentation', required: true},
 });
 
 RestockSchema.path('presentation').validate(presentation => {
