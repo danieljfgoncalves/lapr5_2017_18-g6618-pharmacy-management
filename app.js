@@ -26,27 +26,20 @@ mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
   }
 });
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
+// use morgan to log requests to the console
 if (app.get('env') != 'test') app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(bodyParser.json());
-
-// use morgan to log requests to the console
-app.use(morgan('dev'));
-
+app.set('view engine', 'jade');
 
 // ROUTES FOR OUR API
 // =============================================================================
 var pharmacies=require('./routes/pharmacies_route');
-var index = require('./routes/index');
 
 // REGISTER OUR ROUTES ------------------
-app.use('/', index);
 app.use('/api/', pharmacies);
 
 //test

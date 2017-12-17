@@ -1,17 +1,35 @@
 // controllers/pharmaciesController.js
 
-var Client = require('node-rest-client').Client;
-var client=new Client();
-var config=require('../config');
-var async= require('async');
-var Promise= require('bluebird');
 var Pharmacy = require('../models/pharmacy');
-var mongoose=require('mongoose');
+var Presentation= require('../models/presentation');
+var config = require('../config');
+var nodeRestClient = require('node-rest-client');
+var async = require('async');
+var medicinesClient = require('../helpers/medicinesRequests');
+var mongoose = require('mongoose');
+var Promise = require('bluebird');
 mongoose.Promise = Promise;
+
+var fillStock= function(qtt,pst){
+    var stock={
+        "quantity": qtt,
+        "presentation": {
+            "id_apresentacao": pst.id,
+            "drug":pst.drug,
+            "medicine":pst.medicine,
+            "form":pst.form,
+            "concentration":pst.concentration,
+            "packageQtt":pst.packageQtt
+        },
+    }
+    return stock;
+}
 
 // GET /api/pharmacy
 exports.get_pharmacies= function(req,res){
+    console.log(teste)
 
+    /**
     Pharmacy.find(), function(err, pharmacies){
         if(err)
             return res.status(500).send(err);
@@ -21,6 +39,7 @@ exports.get_pharmacies= function(req,res){
             return res.status(400).send("There aren´t registered pharmacies.");
         }
     }
+    */
 }
 
 // POST /api/pharmacy
@@ -55,16 +74,14 @@ exports.post_pharmacy= function(req, res){
             }
     
             if(idPresentation!==null){
-                var stock;
+               
     
                 //helper getTokenMedicamentosAPI
-                var token=getTokenMedicamentosAPI()
-                    .then(token => getPresentation(idPresentation, req, token))
-                    .then(presentation=> {
-                        stock= fillStock(quantity, presentation);
+               
+                        var stock= fillStock(quantity, stock.presentation);
                         pharmacy.stocks.push(stock);
                         callback();
-                    })
+                    
                 }
             }, function(err){
              
@@ -73,6 +90,7 @@ exports.post_pharmacy= function(req, res){
                     res.status(201).json({message:'Pharmacy Created'})
                 })
             });
+        
 }
 
 // GET /api/pharmacy/:id
