@@ -27,19 +27,19 @@ var fillStock= function(qtt,pst){
 
 // GET /api/pharmacy
 exports.get_pharmacies= function(req,res){
-    console.log(teste)
+    //console.log(teste)
 
-    /**
-    Pharmacy.find(), function(err, pharmacies){
+    
+    Pharmacy.find( function(err, pharmacies){
         if(err)
             return res.status(500).send(err);
         if(pharmacies!= undefined){
-            res.status(200).json(pharmacies);
+            return res.status(200).json(pharmacies);
         }else{
             return res.status(400).send("There aren´t registered pharmacies.");
         }
-    }
-    */
+    });
+    
 }
 
 // POST /api/pharmacy
