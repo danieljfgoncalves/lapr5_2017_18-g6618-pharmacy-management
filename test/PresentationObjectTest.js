@@ -1,4 +1,4 @@
-exports.prescriptions = [
+exports.presentations = [
     {
         drug: "drug1",
         medicine: "medicine1",

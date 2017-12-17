@@ -1,6 +1,7 @@
 // models/Pharmacy.js
 
 var mongoose = require("mongoose");
+var LocationSchema = require('./Location').schema;
 
 var StockShema = mongoose.Schema({
     quantity: Number,
@@ -14,10 +15,9 @@ StockShema.path('presentation').validate(presentation => {
 
 var PharmacySchema = mongoose.Schema({   
     name: String,    
-    location: {type: mongoose.Schema.Types.ObjectId,  ref:'Location', required: true},    
+    location: {type: LocationSchema,  ref:'Location', required: true},    
     stocks: [{       
-        type: StockShema,
-        required: true   
+        type: StockShema  
     }]    
 });
 

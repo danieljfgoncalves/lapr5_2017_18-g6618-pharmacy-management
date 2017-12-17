@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     extend = require('mongoose-schema-extend');
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
+var LocationSchema = require('./Location').schema;
 
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {
@@ -11,7 +12,7 @@ var OrderSchema = ActivityLog.extend({
     },
     period_day: String,
     presentation: {type: mongoose.Schema.Types.ObjectId,  ref:'Presentation', required: true},
-    location: {type: mongoose.Schema.Types.ObjectId,  ref:'Location', required: true},    
+    location: {type: LocationSchema,  ref:'Location', required: true},    
 });
 
 OrderSchema.path('presentation').validate(presentation => {
