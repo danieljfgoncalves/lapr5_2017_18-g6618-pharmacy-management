@@ -33,7 +33,6 @@ if (app.get('env') != 'test') app.use(morgan('dev'));
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(bodyParser.json());
-app.set('view engine', 'jade');
 
 // ROUTES FOR OUR API
 // =============================================================================
