@@ -10,13 +10,13 @@ var ordersController=require('../controllers/ordersController');
 // Add Authentication middleware
 router.use('/order_log_route', middlewares.authenticateToken);
 
-// GET /api/order/{pharmacyId}
-router.get('/order/:id', ordersController.get_pharmachy_orders);
+// GET /api/order/
+router.get('/order', ordersController.get_orders);
 
-// GET /api/order/{pharmacyId}/order/{id}/
-router.get('/order/:id/order/:id', ordersController.get_order);
+// GET /api/order/{id}/
+router.get('/order/:id', ordersController.get_order);
 
-// POST /api/order/{pharmacyId}/order
-router.post('/order/:id/order', ordersController.post_order);
+// POST /api/order
+router.post('/order', ordersController.post_order);
 
 module.exports=router;

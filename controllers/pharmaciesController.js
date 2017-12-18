@@ -41,6 +41,21 @@ exports.get_pharmacies = function (req, res) {
 
 }
 
+// GET /api/pharmacy/{id}/order
+exports.get_pharmacy_orders=function (req, res) {
+    return res.status(200).send("Route GET /api/pharmacy/{id}/order under construction");
+}
+
+// GET /api/pharmacy/{id}/sale
+exports.get_pharmacy_sales=function (req, res) {
+    return res.status(200).send("Route GET /api/pharmacy/{id}/sale under construction");
+}
+
+// GET /api/pharmacy/{id}/restock
+exports.get_pharmacy_restocks=function (req, res) {
+    return res.status(200).send("Route GET /api/pharmacy/{id}/restock under construction");
+}
+
 // POST /api/pharmacy
 exports.post_pharmacy = function (req, res) {
 

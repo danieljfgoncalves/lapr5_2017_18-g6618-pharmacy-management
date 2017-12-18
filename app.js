@@ -41,6 +41,7 @@ var orders=require('./routes/order_log_route');
 var sales=require('./routes/sale_log_route');
 var restocks=require('./routes/restock_log_route');
 var logs=require('./routes/activity_route');
+var presentations=require('./routes/presentation_route');
 
 // REGISTER OUR ROUTES ------------------
 app.use('/api/', pharmacies);
@@ -48,6 +49,7 @@ app.use('/api/', orders);
 app.use('/api/', sales);
 app.use('/api/', restocks);
 app.use('/api/', logs);
+app.use('/api', presentations);
 
 //test
 //var order=require('./test/test-routes');

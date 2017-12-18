@@ -10,13 +10,19 @@ var salesController=require('../controllers/salesController');
 // Add Authentication middleware
 router.use('/sale_log_route', middlewares.authenticateToken);
 
-// GET /api/sale/{pharmacyId}
-router.get('/sale/:id', salesController.get_pharmachy_sales);
+// GET /api/sale
+router.get('/salePharm', salesController.get_sales);
 
-// GET /api/sale/{pharmacyId}/sale/{id}/
-router.get('/sale/:id/sale/:id', salesController.get_sale);
+// GET /api/sale/{id}
+router.get('/sale/:id', salesController.get_sale);
 
-// POST /api/sale/{pharmacyId}/sale
-router.post('/sale/:id/sale', salesController.post_sale);
+// POST /api/sale
+router.post('/sale', salesController.post_sale);
+
+// GET /api/sale/receipt/{id}
+router.get('/sale/receipt/:id', salesController.get_receipt);
+
+// GET /api/sale/receipt/{id}/prescription
+router.get('/sale/receipt/:id/prescription', salesController.get_prescriptions);
 
 module.exports=router;

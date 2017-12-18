@@ -10,13 +10,13 @@ var restocksController=require('../controllers/restockController');
 // Add Authentication middleware
 router.use('/restock_log_route', middlewares.authenticateToken);
 
-// GET /api/restock/{pharmacyId}
-router.get('/restock/:id', restocksController.get_pharmachy_restocks);
+// GET /api/restock
+router.get('/restock', restocksController.get_restocks);
 
-// GET /api/restock/{pharmacyId}/restock/{id}/
-router.get('/restock/:id/restock/:id', restocksController.get_restock);
+// GET /api/restock/{id}/
+router.get('/restock/:id', restocksController.get_restock);
 
-// POST /api/restock/{pharmacyId}/restock
-router.post('/restock/:id/restock', restocksController.post_restock);
+// POST /api/restock/
+router.post('/restock', restocksController.post_restock);
 
 module.exports=router;
