@@ -6,6 +6,7 @@ var MedicinePresentationSchema = require('./MedicinePresentation').schema;
 
 var StockShema = mongoose.Schema({
     quantity: Number,
+    minQuantity: Number,
     medicinePresentation: {
         type: MedicinePresentationSchema,  
         ref:'MedicinePresentation', 

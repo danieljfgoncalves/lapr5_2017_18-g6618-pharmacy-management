@@ -19,6 +19,13 @@ exports.presentations = [
         form: "suporitosio",
         concentration: "200mg",
         packageQtt: "50"
+    },
+    {
+        drug: "drug4",
+        medicine: "medicine4",
+        form: "suporitosio",
+        concentration: "200mg",
+        packageQtt: "100"
     }
 
 ];
