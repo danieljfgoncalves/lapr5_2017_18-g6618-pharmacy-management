@@ -1,6 +1,6 @@
 // ./middleware.js
 
-var config = require('./config');
+var config = require('../config');
 var nodeRestClient = require('node-rest-client');
 
 exports.authenticateToken = (req, res, next) => {
