@@ -17,9 +17,7 @@ var config=require('./config');
 var mongoose=require('mongoose');
 var mongoOptions = { useMongoClient: true };
 
-console.log(app.get('env'));
-
-mongoose.connect(config.mongoURI['production'], mongoOptions, error => {
+mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
   if (error) {
     console.log('Error connecting to the database. ' + error);
   } else {
