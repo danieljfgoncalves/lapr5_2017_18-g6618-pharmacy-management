@@ -3,7 +3,7 @@
 var nodeRestClient = require('node-rest-client');
 
 // GET /api/pharmacyLog/{id}
-exports.get_log_date= function(req,res){
+exports.get_log= function(req,res){
     return res.status(200).send("Route GET /api/pharmacyLog/{id} under construction");
 }
 

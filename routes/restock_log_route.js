@@ -5,7 +5,7 @@ var router      = express.Router();
 var middlewares = require('../middlewares/middleware');
 
 // require controller modules
-var restocksController=require('../controllers/restocksController');
+var restocksController=require('../controllers/restockController');
 
 // Add Authentication middleware
 router.use('/restock_log_route', middlewares.authenticateToken);
@@ -18,3 +18,5 @@ router.get('/restock/:id/restock/:id', restocksController.get_restock);
 
 // POST /api/restock/{pharmacyId}/restock
 router.post('/restock/:id/restock', restocksController.post_restock);
+
+module.exports=router;

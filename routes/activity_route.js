@@ -11,7 +11,7 @@ var activityController=require('../controllers/activityController');
 router.use('/activity_route', middlewares.authenticateToken);
 
 // GET /api/pharmacyLog/{id}
-router.get('/pharmacyLog/:id', activityController.get_log_date);
+router.get('/pharmacyLog/:id', activityController.get_log);
 
 // GET /api/pharmacyLog/{date}
 router.get('/pharmacyLog/:date', activityController.get_log_date);

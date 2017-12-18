@@ -2,7 +2,7 @@
 
 var express     = require('express');
 var router      = express.Router();
-var middlewares = require('../middleware');
+var middlewares = require('../middlewares/middleware');
 
 // require controller modules
 var pharmaciesController=require('../controllers/pharmaciesController');

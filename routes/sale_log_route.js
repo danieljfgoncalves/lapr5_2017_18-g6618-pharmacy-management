@@ -18,3 +18,5 @@ router.get('/sale/:id/sale/:id', salesController.get_sale);
 
 // POST /api/sale/{pharmacyId}/sale
 router.post('/sale/:id/sale', salesController.post_sale);
+
+module.exports=router;

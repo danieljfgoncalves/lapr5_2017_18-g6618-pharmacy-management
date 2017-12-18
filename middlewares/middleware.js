@@ -11,6 +11,6 @@ exports.authenticateToken = (req, res, next) => {
      if (token) {
         next();
      }  else {
-         return res.status(403).send('No token provided');
+         //return res.status(403).send('No token provided');
      }
 }
