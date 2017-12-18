@@ -6,29 +6,32 @@ var MedicinePresentationSchema = require('./MedicinePresentation').schema;
 
 var StockShema = mongoose.Schema({
     quantity: Number,
-    minQuantity: Number,
+    minQuantity: {
+        type: Number,
+        default: 10
+    },
     medicinePresentation: {
-        type: MedicinePresentationSchema,  
-        ref:'MedicinePresentation', 
+        type: MedicinePresentationSchema,
+        ref: 'MedicinePresentation',
         required: true
     },
 })
 
 StockShema.path('medicinePresentation').validate(medicinePresentation => {
-    if(!medicinePresentation) {return false;}
+    if (!medicinePresentation) { return false; }
     return true;
 }, 'The order must have one presentation.');
 
-var PharmacySchema = mongoose.Schema({   
-    name: String,    
-    location: {type: LocationSchema,  ref:'Location', required: true},    
-    stocks: [{       
-        type: StockShema  
-    }]    
+var PharmacySchema = mongoose.Schema({
+    name: String,
+    location: { type: LocationSchema, ref: 'Location', required: true },
+    stocks: [{
+        type: StockShema
+    }]
 });
 
 PharmacySchema.path('location').validate(location => {
-    if(!location) {return false;}
+    if (!location) { return false; }
     return true;
 }, 'The pharmacy must have one location.');
 

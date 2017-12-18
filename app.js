@@ -97,10 +97,12 @@ console.log('Restock example');
 console.log(re.restocks[0]);
 console.log('++++++++++++++++++++++++');
 var s = require('./test/SaleObjectTest');
+
+/*
 console.log('Sale example');
 console.log(s.sales[0]);
 console.log('++++++++++++++++++++++++');
-/*
+
 console.log(phar.pharmacy[0].name);
 console.log(phar.pharmacy[0].location);
 console.log(phar.pharmacy[0].stocks);

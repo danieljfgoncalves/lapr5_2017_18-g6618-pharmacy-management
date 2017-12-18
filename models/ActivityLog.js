@@ -5,6 +5,11 @@ var mongoose = require("mongoose"),
 var Schema = mongoose.Schema;
 
 var ActivityLogSchema = new Schema({
+    id_pharmacy: {
+        type : mongoose.Schema.Types.ObjectId,
+        ref:'Pharmacy', 
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

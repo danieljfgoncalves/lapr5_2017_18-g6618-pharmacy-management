@@ -1,33 +1,35 @@
-var presentation = require('./MedicinePresentationObjectTest');
+var prescription = require('./MedicinePresentationObjectTest');
 
 exports.sales = [
+    /*
     {
         quantity: 12,
-        presentation: presentation.presentations[0],
+        prescription: prescription.prescriptions[0],
     },
     {
         quantity: 34,
-        presentation: presentation.presentations[1],
+        prescription: prescription.prescriptions[1],
     },
     {
         quantity: 12,
-        presentation: presentation.presentations[4],
+        prescription: prescription.prescriptions[4],
     },
     {
         quantity: 30,
-        presentation: presentation.presentations[2],
+        prescription: prescription.prescriptions[2],
     },
     {
         quantity: 18,
-        presentation: presentation.presentations[0],
+        prescription: prescription.prescriptions[0],
     },
     {
         quantity: 44,
-        presentation: presentation.presentations[3],
+        prescription: prescription.prescriptions[3],
     }, 
     {
         quantity: 44,
-        presentation: presentation.presentations[2],
+        prescription: prescription.prescriptions[2],
     }
+    */
 ];
 
