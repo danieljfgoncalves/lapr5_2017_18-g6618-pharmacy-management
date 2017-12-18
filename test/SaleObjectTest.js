@@ -1,34 +1,33 @@
-var location = require('./LocationObjectTest');
-var presentation = require('./PresentationObjectTest');
+var presentation = require('./MedicinePresentationObjectTest');
 
 exports.sales = [
     {
         quantity: 12,
-        presentation: presentation[0],
+        presentation: presentation.presentations[0],
     },
     {
         quantity: 34,
-        presentation: presentation[1],
+        presentation: presentation.presentations[1],
     },
     {
         quantity: 12,
-        presentation: presentation[4],
+        presentation: presentation.presentations[4],
     },
     {
         quantity: 30,
-        presentation: presentation[2],
+        presentation: presentation.presentations[2],
     },
     {
         quantity: 18,
-        presentation: presentation[0],
+        presentation: presentation.presentations[0],
     },
     {
         quantity: 44,
-        presentation: presentation[3],
+        presentation: presentation.presentations[3],
     }, 
     {
         quantity: 44,
-        presentation: presentation[2],
+        presentation: presentation.presentations[2],
     }
 ];
 

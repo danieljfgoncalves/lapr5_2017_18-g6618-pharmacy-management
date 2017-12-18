@@ -64,4 +64,40 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
+
+
+
+
+
+// **************** TESTES **************** RETIRAR ****************
+var phar = require('./test/PharmacyObjectTest');
+console.log('Pharmacy example');
+console.log(phar.pharmacy[0]);
+console.log('++++++++++++++++++++++++');
+var med = require('./test/MedicinePresentationObjectTest');
+console.log('Medine Presentation example');
+console.log(med.presentations[0]);
+console.log('++++++++++++++++++++++++');
+var o = require('./test/OrderObjectTest');
+console.log('Order example');
+console.log(o.orders[0]);
+console.log('++++++++++++++++++++++++');
+var re = require('./test/RestockObjectTest');
+console.log('Restock example');
+console.log(re.restocks[0]);
+console.log('++++++++++++++++++++++++');
+var s = require('./test/SaleObjectTest');
+console.log('Sale example');
+console.log(s.sales[0]);
+console.log('++++++++++++++++++++++++');
+/*
+console.log(phar.pharmacy[0].name);
+console.log(phar.pharmacy[0].location);
+console.log(phar.pharmacy[0].stocks);
+*/
+// **************** FIM TESTES **************** RETIRAR ****************
+
+
+
+
 module.exports = app;
