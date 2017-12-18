@@ -5,18 +5,18 @@ var mongoose = require('mongoose'),
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
 var LocationSchema = require('./Location').schema;
-var PresentationSchema = require('./Presentation');
+var MedicinePresentationSchema = require('./Presentation');
 
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {
         type: Number, min: 1
     },
     period_day: String,
-    presentation: {type: PresentationSchema,  ref:'Presentation', required: true},
+    medicinePresentation: {type: MedicinePresentationSchema,  ref:'MedicinePresentation', required: true},
     location: {type: LocationSchema,  ref:'Location', required: true},    
 });
 
-OrderSchema.path('presentation').validate(presentation => {
+OrderSchema.path('medicinePresentation').validate(presentation => {
     if(!presentation) {return false;}
     return true;
 }, 'The order must have one presentation.');

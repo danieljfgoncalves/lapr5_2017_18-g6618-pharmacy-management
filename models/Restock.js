@@ -4,14 +4,14 @@ var mongoose = require('mongoose'),
     extend = require('mongoose-schema-extend');
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
-var PresentationSchema = require('./Presentation');
+var MedicinePresentationSchema = require('./MedicinePresentation');
 
 var RestockSchema = ActivityLog.extend({
     quantity: Number,
-    presentation: {type: PresentationSchema,  ref:'Presentation', required: true},
+    medicinePresentation: {type: MedicinePresentationSchema,  ref:'MedicinePresentation', required: true},
 });
 
-RestockSchema.path('presentation').validate(presentation => {
+RestockSchema.path('medicinePresentation').validate(presentation => {
     if(!presentation) {return false;}
     return true;
 }, 'The restock must have one presentation.');

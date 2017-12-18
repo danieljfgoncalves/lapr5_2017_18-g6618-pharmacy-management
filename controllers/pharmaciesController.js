@@ -2,7 +2,7 @@
 
 var Pharmacy = require('../models/Pharmacy');
 var Location = require('../models/Location');
-var Presentation = require('../models/presentation');
+var MedicinePresentation = require('../models/MedicinePresentation');
 var config = require('../config');
 var nodeRestClient = require('node-rest-client');
 var async = require('async');
@@ -14,8 +14,8 @@ mongoose.Promise = Promise;
 var fillStock = function (qtt, pst) {
     var stock = {
         "quantity": qtt,
-        "presentation": {
-            "id_apresentacao": pst.id,
+        "medicinePresentation": {
+            "id_presentation": pst.id,
             "drug": pst.drug,
             "medicine": pst.medicine,
             "form": pst.form,
@@ -28,8 +28,6 @@ var fillStock = function (qtt, pst) {
 
 // GET /api/pharmacy
 exports.get_pharmacies = function (req, res) {
-    //console.log(teste)
-
 
     Pharmacy.find(function (err, pharmacies) {
         if (err)

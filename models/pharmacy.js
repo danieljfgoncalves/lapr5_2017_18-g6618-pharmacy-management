@@ -2,15 +2,19 @@
 
 var mongoose = require("mongoose");
 var LocationSchema = require('./Location').schema;
-var PresentationSchema = require('./Presentation');
+var MedicinePresentationSchema = require('./MedicinePresentation').schema;
 
 var StockShema = mongoose.Schema({
     quantity: Number,
-    presentation: {type: PresentationSchema,  ref:'Presentation', required: true},
+    medicinePresentation: {
+        type: MedicinePresentationSchema,  
+        ref:'MedicinePresentation', 
+        required: true
+    },
 })
 
-StockShema.path('presentation').validate(presentation => {
-    if(!presentation) {return false;}
+StockShema.path('medicinePresentation').validate(medicinePresentation => {
+    if(!medicinePresentation) {return false;}
     return true;
 }, 'The order must have one presentation.');
 
