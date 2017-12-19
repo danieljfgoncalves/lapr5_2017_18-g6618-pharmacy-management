@@ -16,7 +16,5 @@ router.get('/order', ordersController.get_orders);
 // GET /api/order/{id}/
 router.get('/order/:id', ordersController.get_order);
 
-// POST /api/order
-router.post('/order', ordersController.post_order);
 
 module.exports=router;

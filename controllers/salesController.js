@@ -4,7 +4,9 @@ var nodeRestClient = require('node-rest-client');
 
 // GET /api/sale/
 exports.get_sales = function (req, res) {
-    Sale.find(), function (err, sales) {
+    Sale.find({
+        _type: "Sale"
+    }, function (err, sales) {
         if (err)
             return res.status(500).send(err);
         if (sales != undefined) {
@@ -12,8 +14,8 @@ exports.get_sales = function (req, res) {
         } else {
             return res.status(400).send("There aren´t registered sales.");
         }
-    }
-};
+    });
+}
 
 
 // GET /api/sale/{id}/

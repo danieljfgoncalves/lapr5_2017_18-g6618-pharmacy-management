@@ -55,7 +55,7 @@ var verifyLocation = function (loc) {
 
     return new Promise((resolve, reject) => {
         Pharmacy.findOne({
-            location: locationCreated
+            location: loc
         }), function (err, finded) {
             if (err) return res.status(500).send(err);
             if (finded) return res.status(404).send('There is already a pharmacy on inserted location ');
@@ -81,7 +81,9 @@ exports.get_pharmacies = function (req, res) {
 
 // GET /api/pharmacy/{id}/order
 exports.get_pharmacy_orders = function (req, res) {
-    return res.status(200).json(medicinesClient.getPresentation('5a35cc24ceee9e24764ba8a3'));
+    
+
+    
 }
 
 // GET /api/pharmacy/{id}/sale
@@ -145,14 +147,14 @@ exports.get_pharmacy = function (req, res) {
     })
 }
 
-// GET /api/pharmacy/:id/stock/:id
+// GET /api/pharmacy/:id/stock/
 exports.get_pharmacy_stock = function (req, res) {
 
-    Pharmacy.findById(req.params.pharmacy_id, function (err, pharmacy) {
+    Pharmacy.findById(req.params.pharmacyId, function (err, pharmacy) {
         if (err) return res.status(500).send(err);
         if (!pharmacy) return res.status(404).send('There isn´t a pharmacy with the given ID.');
 
-        var stock = pharmacy.stocks.find(s => s.id === req.params.id);
+        var stock = pharmacy.stocks.find(s => s.id === req.params.pharmacyId); // ?????????????????????
         if (!stock) return res.status(404).send('There isn´t stock with the given ID in pharmacy.');
         return res.status(200).send(stock);
     })

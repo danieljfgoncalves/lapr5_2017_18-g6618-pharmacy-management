@@ -7,7 +7,16 @@ var MedicinePresentationSchema = mongoose.Schema({
     medicine: String,
     form: String,
     concentration: String,
-    packageQtt: Number  
+    packageQtt: Number,
+    // saves id from MedicinesAPI
+    id_medicine: {
+        type: String, 
+        required: true
+    },
+    id_presentation: {
+        type: String, 
+        required: true
+    }
 });
 
 module.exports.schema = MedicinePresentationSchema;

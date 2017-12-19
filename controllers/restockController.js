@@ -5,7 +5,10 @@ var Restock = require('../models/Restock');
 
 // GET /api/restock
 exports.get_restocks = function(req,res){
-    Restock.find(function (err, restocks) {
+
+    Restock.find({
+        _type: "Restock"
+    },function (err, restocks) {
         if (err)
             return res.status(500).send(err);
         if (restocks != undefined) {

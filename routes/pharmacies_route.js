@@ -28,9 +28,6 @@ router.get('/pharmacy/:id/sale', pharmaciesController.get_pharmacy_sales);
 // GET /api/pharmacy/{id}/restock
 router.get('/pharmacy/:id/restock', pharmaciesController.get_pharmacy_restocks);
 
-// GET /api/pharmacy/{id}/stock/{id}
-router.get('/pharmacy/:pharmacyId/stock/:stockId', pharmaciesController.get_pharmacy_stock);
-
 // POST /api/pharmacy
 router.post('/pharmacy', pharmaciesController.post_pharmacy);
 

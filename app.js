@@ -80,6 +80,7 @@ app.use((err, req, res, next) => {
 
 
 // **************** TESTES **************** RETIRAR ****************
+/*
 var phar = require('./test/PharmacyObjectTest');
 console.log('Pharmacy example');
 console.log(phar.pharmacy[0]);
@@ -98,7 +99,7 @@ console.log(re.restocks[0]);
 console.log('++++++++++++++++++++++++');
 var s = require('./test/SaleObjectTest');
 
-/*
+
 console.log('Sale example');
 console.log(s.sales[0]);
 console.log('++++++++++++++++++++++++');
@@ -106,6 +107,21 @@ console.log('++++++++++++++++++++++++');
 console.log(phar.pharmacy[0].name);
 console.log(phar.pharmacy[0].location);
 console.log(phar.pharmacy[0].stocks);
+
+
+var update = require('./services/UpdateStockService');
+
+var medicinePresentationTest = {
+  drug: "drug3",
+  medicine: "medicine2",
+  form: "comprimido",
+  concentration: "50mg",
+  packageQtt: "24",
+  id_medicine: "5a35cc24ceee9e24764ba89f",
+  id_presentation: "5a35cc24ceee9e24764ba8a2"
+};
+
+update.updateStock('5a37a9cfd0845f239cd346b8', medicinePresentationTest, 1);
 */
 // **************** FIM TESTES **************** RETIRAR ****************
 

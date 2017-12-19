@@ -11,8 +11,8 @@ var RestockSchema = ActivityLog.extend({
     medicinePresentation: {type: MedicinePresentationSchema,  ref:'MedicinePresentation', required: true},
 });
 
-RestockSchema.path('medicinePresentation').validate(presentation => {
-    if(!presentation) {return false;}
+RestockSchema.path('medicinePresentation').validate(medicinePresentation => {
+    if(!medicinePresentation) {return false;}
     return true;
 }, 'The restock must have one presentation.');
 
