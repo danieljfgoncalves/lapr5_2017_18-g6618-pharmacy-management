@@ -2,14 +2,18 @@
 
 var nodeRestClient = require('node-rest-client');
 var Restock = require('../models/Restock');
+var Pharmacy = require('../models/Pharmacy');
 var update = require('../services/UpdateStockService');
+var mongoose = require('mongoose');
+var Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 // GET /api/restock
-exports.get_restocks = function(req,res){
+exports.get_restocks = function (req, res) {
 
     Restock.find({
         _type: "Restock"
-    },function (err, restocks) {
+    }, function (err, restocks) {
         if (err)
             return res.status(500).send(err);
         if (restocks != undefined) {
@@ -21,7 +25,7 @@ exports.get_restocks = function(req,res){
 }
 
 // GET /api/restock/{id}
-exports.get_restock = function(req,res){
+exports.get_restock = function (req, res) {
     Restock.findById(req.params.id, function (err, restock) {
         if (err) return res.status(500).send(err);
         if (!restock) return res.status(404).send("There isn´t a restock with the given ID.");
@@ -30,7 +34,7 @@ exports.get_restock = function(req,res){
 }
 
 // POST /api/restock
-exports.post_restock= function(req,res){
+exports.post_restock = function (req, res) {
     var r = new Restock();
 
     r.id_pharmacy = req.body.id_pharmacy
@@ -40,7 +44,8 @@ exports.post_restock= function(req,res){
     r.save(function (err) {
         if (err) return res.status(500).send(err);
 
-        update.updateStock(r.id_pharmacy, r.medicinePresentation, r.quantity);
+
+        update.updateStock(req.body.id_pharmacy, req.body.medicinePresentation, req.body.quantity);
         return res.status(201).json({ message: 'Restock Created', r })
     })
 }

@@ -6,6 +6,7 @@ var Order = require('../models/Order');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 mongoose.Promise = Promise;
+var math = require('mathjs');
 
 exports.updateStock = function (id_phamacy, medicinePresentation, quantity) {
     return new Promise((resolve, reject) => {
@@ -24,14 +25,15 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity) {
                     if (pharmacy.stocks[i].medicinePresentation.id_medicine == medicinePresentation.id_medicine
                         && pharmacy.stocks[i].medicinePresentation.id_presentation == medicinePresentation.id_presentation) {
 
-                        var quant = pharmacy.stocks[i].quantity;
-                        var final_quant = quant + quantity;
+                        var quant = parseInt(pharmacy.stocks[i].quantity);
+ 
+                        var final_quant = math.eval(parseInt(quant) + parseInt(quantity));
                         if (final_quant < 0) {
                             ret = { message: 'It was not possible finish operation! Insufficient Stock!' };
                         }
                         if (final_quant < pharmacy.stocks[i].minQuantity) {
 
-                            var qtt = pharmacy.stocks[i].minQuantity * config.multipStockFactor;
+                            var qtt = math.eval(parseInt(pharmacy.stocks[i].minQuantity) * parseInt(config.multipStockFactor));
 
                             createOrder(pharmacy, medicinePresentation, qtt);
 
