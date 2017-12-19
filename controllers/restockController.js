@@ -2,6 +2,7 @@
 
 var nodeRestClient = require('node-rest-client');
 var Restock = require('../models/Restock');
+var update = require('../services/UpdateStockService');
 
 // GET /api/restock
 exports.get_restocks = function(req,res){
@@ -39,7 +40,7 @@ exports.post_restock= function(req,res){
     r.save(function (err) {
         if (err) return res.status(500).send(err);
 
-        // TODO -> CALL UPDATE STOCK SERVICE
+        update.updateStock(r.id_pharmacy, r.medicinePresentation, r.quantity);
         return res.status(201).json({ message: 'Restock Created', r })
     })
 }
