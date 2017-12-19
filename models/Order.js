@@ -4,6 +4,8 @@ var mongoose = require('mongoose'),
     extend = require('mongoose-schema-extend');
 var Schema = mongoose.Schema;
 var ActivityLog = require('./ActivityLog').schema;
+var MedicinePresentationSchema = require('./MedicinePresentation');
+
 
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {

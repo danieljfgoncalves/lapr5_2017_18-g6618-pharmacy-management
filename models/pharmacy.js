@@ -1,4 +1,4 @@
-// models/Pharmacy.js
+// models/pharmacy.js
 
 var mongoose = require("mongoose");
 var LocationSchema = require('./Location').schema;

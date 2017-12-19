@@ -14,10 +14,11 @@ module.exports = {
    'medicines_backend':{
   
         'urlPresentations': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/',
-        'urlPresentationsDetailed':'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed'
-   },/*
-    'urlMedicinesToken': 'http://medicamentosapi2017.azurewebsites.net/api/Account/Token',
-    'urlPresentationById': 'http://medicamentosapi2017.azurewebsites.net/api/Apresentacao/', 
-    'loginMedicines': '{email:"a@a.pt", password:"Qwerty1!"}',
-    */  
+        'urlPresentationsDetailed':'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed',
+        'args': {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+   }
   }

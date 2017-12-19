@@ -3,7 +3,7 @@
 var mongoose = require("mongoose");
 var MedicinePresentationSchema = require('./MedicinePresentation');
 
-var FillSchema = new Schema({
+var FillSchema = mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
@@ -11,7 +11,7 @@ var FillSchema = new Schema({
     quantity: Number
 });
 
-var PrescriptionSchema = new Schema({
+var PrescriptionSchema = mongoose.Schema({
     prescriptionId: String,
     receiptId: String,
     expirationDate: {

@@ -2,6 +2,9 @@
 
 var Pharmacy = require('../models/Pharmacy');
 var Location = require('../models/Location');
+var Restock = require('../models/Restock');
+var Order = require('../models/Order');
+var Sale = require('../models/Sale');
 var MedicinePresentation = require('../models/MedicinePresentation');
 var config = require('../config');
 var nodeRestClient = require('node-rest-client');
@@ -26,6 +29,41 @@ var fillStock = function (qtt, pst) {
     return stock;
 }
 
+var fillPresentation = function (stock) {
+    var idStock = stock.id_stock;
+    var quantity = stock.quantity;
+    var idPresentation = stock.id_presentation;
+
+    if (idPresentation == undefined) {
+        idPresentation = stock.presentation.id_presentation;
+    }
+
+    if (idPresentation !== null) {
+        
+        
+       var presentation = medicinesClient.getPresentation(idPresentation);
+
+        if (presentation) {
+            fillStock(quantity, presentation)
+        }
+    }
+    return stock;
+}
+
+
+var verifyLocation = function (loc) {
+
+    return new Promise((resolve, reject) => {
+        Pharmacy.findOne({
+            location: locationCreated
+        }), function (err, finded) {
+            if (err) return res.status(500).send(err);
+            if (finded) return res.status(404).send('There is already a pharmacy on inserted location ');
+            resolve(finded);
+        };
+    });
+}
+
 // GET /api/pharmacy
 exports.get_pharmacies = function (req, res) {
 
@@ -42,17 +80,17 @@ exports.get_pharmacies = function (req, res) {
 }
 
 // GET /api/pharmacy/{id}/order
-exports.get_pharmacy_orders=function (req, res) {
-    return res.status(200).send("Route GET /api/pharmacy/{id}/order under construction");
+exports.get_pharmacy_orders = function (req, res) {
+    return res.status(200).json(medicinesClient.getPresentation('5a35cc24ceee9e24764ba8a3'));
 }
 
 // GET /api/pharmacy/{id}/sale
-exports.get_pharmacy_sales=function (req, res) {
+exports.get_pharmacy_sales = function (req, res) {
     return res.status(200).send("Route GET /api/pharmacy/{id}/sale under construction");
 }
 
 // GET /api/pharmacy/{id}/restock
-exports.get_pharmacy_restocks=function (req, res) {
+exports.get_pharmacy_restocks = function (req, res) {
     return res.status(200).send("Route GET /api/pharmacy/{id}/restock under construction");
 }
 
@@ -73,37 +111,27 @@ exports.post_pharmacy = function (req, res) {
             latitude: latitude,
             longitude: longitude
         });
+
+        //Each location must have just one pharmacy
+        verifyLocation(locationCreated);
         pharmacy.location = locationCreated;
     } else {
+        //Each location must have just one pharmacy
+        verifyLocation(req.body.location);
         pharmacy.location = req.body.location;
     }
 
-        async.each(req.body.stocks, function (stock, callback) {
-            var idStock = stock.id_stock;
-            var quantity = stock.quantity;
-            var idPresentation = stock.id_presentation;
+    async.each(req.body.stocks, function (stock, callback) {
+        var stock = fillPresentation(req.body.stocks);
+        pharmacy.stocks.push(stock);
+        callback();
+    }, function (err) {
 
-            if (idPresentation == undefined) {
-                idPresentation = stock.presentation.id_presentation;
-            }
-
-            if (idPresentation !== null) {
-
-
-                //helper getTokenMedicamentosAPI
-
-                var stock = fillStock(quantity, stock.presentation);
-                pharmacy.stocks.push(stock);
-                callback();
-
-            }
-        }, function (err) {
-
-            pharmacy.save(function (err) {
-                if (err) return res.status(500).send(err);
-                return res.status(201).json({ message: 'Pharmacy Created', pharmacy })
-            })
-        });
+        pharmacy.save(function (err) {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json({ message: 'Pharmacy Created', pharmacy })
+        })
+    });
 
 }
 
@@ -122,7 +150,7 @@ exports.get_pharmacy_stock = function (req, res) {
 
     Pharmacy.findById(req.params.pharmacy_id, function (err, pharmacy) {
         if (err) return res.status(500).send(err);
-        if (!pharmacy) return res.status(404).send('There isn´t a pharmacy with the ginve ID.');
+        if (!pharmacy) return res.status(404).send('There isn´t a pharmacy with the given ID.');
 
         var stock = pharmacy.stocks.find(s => s.id === req.params.id);
         if (!stock) return res.status(404).send('There isn´t stock with the given ID in pharmacy.');
