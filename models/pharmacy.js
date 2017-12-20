@@ -5,7 +5,11 @@ var LocationSchema = require('./Location').schema;
 var MedicinePresentationSchema = require('./MedicinePresentation').schema;
 
 var StockShema = mongoose.Schema({
-    quantity: Number,
+    quantity: { 
+        type: Number,
+        required: true,
+        min: 1
+    },
     minQuantity: {
         type: Number,
         default: 10

@@ -8,15 +8,17 @@ var Promise = require('bluebird');
 mongoose.Promise = Promise;
 var math = require('mathjs');
 
-exports.updateStock = function (id_phamacy, medicinePresentation, quantity) {
+exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type) {
     return new Promise((resolve, reject) => {
 
         var ret;
         Pharmacy.findById(id_phamacy, function (err, pharmacy) {
             if (err)
-                ret = { message: 'ERROR: ' + err };
+                ret = { message: 'ERROR: ' + err , flag: false };
             if (pharmacy == undefined) {
-                ret = { message: "There aren´t registered pharmacies." };
+                ret = { message: "There aren´t registered pharmacies.", flag: false };
+            } else if(quantity <= 0){
+                ret = { message: 'It was not possible finish operation! Negative quantity!', flag: false };
             } else {
 
                 for (let i = 0; i < pharmacy.stocks.length; i++) {
@@ -26,17 +28,23 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity) {
                         && pharmacy.stocks[i].medicinePresentation.id_presentation == medicinePresentation.id_presentation) {
 
                         var quant = parseInt(pharmacy.stocks[i].quantity);
- 
-                        var final_quant = math.eval(parseInt(quant) + parseInt(quantity));
-                        if (final_quant < 0) {
-                            ret = { message: 'It was not possible finish operation! Insufficient Stock!' };
-                        }
-                        if (final_quant < pharmacy.stocks[i].minQuantity) {
+                        var final_quant;
 
-                            var qtt = math.eval(parseInt(pharmacy.stocks[i].minQuantity) * parseInt(config.multipStockFactor));
+                        if (type == config.add){
+                            final_quant = math.eval(parseInt(quant) + parseInt(quantity));
+                        } else{
+                            final_quant = math.eval(parseInt(quant) - parseInt(quantity));
+                        }
+                         
+                        if (final_quant < 0) {
+                            ret = { message: 'It was not possible finish operation! Insufficient Stock!', flag: false };
+                            resolve(ret);
+                        } else if (final_quant < pharmacy.stocks[i].minQuantity) {
+
+                            var qtt = math.eval(parseInt(pharmacy.stocks[i].minQuantity) 
+                                                * parseInt(config.multipStockFactor));
 
                             createOrder(pharmacy, medicinePresentation, qtt);
-
                         }
                         flag = true;
                         pharmacy.stocks[i].quantity = final_quant;
@@ -58,8 +66,8 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity) {
                 }
 
                 pharmacy.save(function (err) {
-                    if (err) ret = { message: 'ERROR: ' + err };
-                    ret = { message: 'Stock updated!', pharmacy };
+                    if (err) ret = { message: 'ERROR' + err, flag: false };
+                    ret = { message: 'Stock updated!', pharmacy, flag: true };
                 });
             }
 
@@ -75,7 +83,7 @@ var createOrder = function (pharmacy, medicinePresentation, qtt) {
 
         order.id_pharmacy = pharmacy._id;
         order.qttNeeded = qtt;
-        order.period_day = "manha"; // FIX ME
+       // order.period_day = "manha"; // FIX ME
         order.medicinePresentation = medicinePresentation;
         order.name_pharmacy = pharmacy.name;
         order.latitude = pharmacy.location.latitude;

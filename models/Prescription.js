@@ -3,31 +3,22 @@
 var mongoose = require("mongoose");
 var MedicinePresentationSchema = require('./MedicinePresentation');
 
-var FillSchema = mongoose.Schema({
-    date: {
-        type: Date,
-        default: Date.now
-    },
-    quantity: Number
-});
 
 var PrescriptionSchema = mongoose.Schema({
-    prescriptionId: String,
-    receiptId: String,
-    expirationDate: {
-        type: Date
+    //
+    prescriptionId: { 
+        type: String,
+        required: true
     },
-    presentation: {
+    receiptId:{ 
+        type: String,
+        required: true
+    },
+    medicinePresentation: {
         type: MedicinePresentationSchema,
         ref: 'MedicinePresentation',
         required: true
-    },
-    quantity: {
-        type: Number,
-        required: 'Quantity is required',
-        min: 1
-    },
-    fills: [FillSchema]
+    }
 });
 
 module.exports.schema = PrescriptionSchema;

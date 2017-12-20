@@ -3,11 +3,26 @@
 var mongoose = require("mongoose");
 
 var MedicinePresentationSchema = mongoose.Schema({  
-    drug: String,    
-    medicine: String,
-    form: String,
-    concentration: String,
-    packageQtt: Number,
+    drug: { 
+        type: String,
+        required: true
+    },    
+    medicine: { 
+        type: String,
+        required: true
+    },
+    form: { 
+        type: String,
+        required: true
+    },
+    concentration: { 
+        type: String,
+        required: true
+    },
+    packageQtt: { 
+        type: String,
+        required: true
+    },
     // saves id from MedicinesAPI
     id_medicine: {
         type: String, 

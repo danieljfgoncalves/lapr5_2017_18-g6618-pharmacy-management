@@ -1,6 +1,7 @@
 // controllers/restockController.js
 
 var nodeRestClient = require('node-rest-client');
+var config = require('../config');
 var Restock = require('../models/Restock');
 var Pharmacy = require('../models/Pharmacy');
 var update = require('../services/UpdateStockService');
@@ -35,17 +36,25 @@ exports.get_restock = function (req, res) {
 
 // POST /api/restock
 exports.post_restock = function (req, res) {
-    var r = new Restock();
+    var restock = new Restock( {
+        id_pharmacy: req.body.id_pharmacy,
+        quantity: req.body.quantity,
+        medicinePresentation: req.body.medicinePresentation        
+    });    
 
-    r.id_pharmacy = req.body.id_pharmacy
-    r.quantity = req.body.quantity;
-    r.medicinePresentation = req.body.medicinePresentation;
+    Promise.join(
+        update.updateStock(
+            restock.id_pharmacy,
+            restock.medicinePresentation,
+            restock.quantity,
+            config.sub),
+        function (check) {
+       
+            restock.save(function (err) {
+                if (err) return res.status(500).send(err);
+                return res.status(201).json({ message: 'Restock Created', restock });
+            })
+           
+        });
 
-    r.save(function (err) {
-        if (err) return res.status(500).send(err);
-
-
-        update.updateStock(req.body.id_pharmacy, req.body.medicinePresentation, req.body.quantity);
-        return res.status(201).json({ message: 'Restock Created', r })
-    })
 }

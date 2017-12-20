@@ -7,7 +7,10 @@ var ActivityLog = require('./ActivityLog').schema;
 var PrescriptionSchema = require('./Prescription');
 
 var SaleSchema = ActivityLog.extend({
-    quantity: Number,
+    quantity: {
+        type: Number,
+        min: 1
+    },
     prescription: {
         type: PrescriptionSchema,
         ref: 'Prescription',

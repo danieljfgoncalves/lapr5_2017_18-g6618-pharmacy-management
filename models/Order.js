@@ -9,17 +9,30 @@ var MedicinePresentationSchema = require('./MedicinePresentation');
 
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {
-        type: Number, min: 1
+        type: Number,
+        min: 1
     },
-    period_day: String,
+    period_day: { 
+        type: String,
+        default: "morning"
+    },
     medicinePresentation: {
         type: MedicinePresentationSchema,  
         ref:'MedicinePresentation', 
         required: true
     },
-    name_pharmacy: String,
-    latitude: String,
-    longitude: String
+    name_pharmacy: { 
+        type: String,
+        required: true
+    },
+    latitude: { 
+        type: String,
+        required: true
+    },
+    longitude: { 
+        type: String,
+        required: true
+    }
 });
 
 OrderSchema.path('period_day').validate(period_day => {

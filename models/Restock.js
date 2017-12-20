@@ -7,8 +7,15 @@ var ActivityLog = require('./ActivityLog').schema;
 var MedicinePresentationSchema = require('./MedicinePresentation');
 
 var RestockSchema = ActivityLog.extend({
-    quantity: Number,
-    medicinePresentation: {type: MedicinePresentationSchema,  ref:'MedicinePresentation', required: true},
+    quantity: {
+        type: Number,
+        min: 1
+    },
+    medicinePresentation: {
+        type: MedicinePresentationSchema,  
+        ref:'MedicinePresentation', 
+        required: true
+    },
 });
 
 RestockSchema.path('medicinePresentation').validate(medicinePresentation => {

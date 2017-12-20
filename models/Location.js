@@ -3,8 +3,14 @@
 var mongoose = require("mongoose");
 
 var LocationSchema = mongoose.Schema({
-    latitude: String,
-    longitude: String
+    latitude: { 
+        type: String,
+        required: true
+    },
+    longitude: { 
+        type: String,
+        required: true
+    }
 });
 
 module.exports.schema = LocationSchema;

@@ -12,13 +12,15 @@ module.exports = {
     },
 
     'multipStockFactor': 2,
+    'add': '+',
+    'sub': '-',
 
     'medicines_backend': {
 
         'urlPresentations': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/',
         'urlPresentationsDetailed': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed',
         'args': {
-            headers: {
+            'headers': {
                 "Content-Type": "application/json",
             }
         }
