@@ -13,8 +13,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // DATABASE SETUP
-var config=require('./config');
-var mongoose=require('mongoose');
+var config = require('./config');
+var mongoose = require('mongoose');
 var mongoOptions = { useMongoClient: true };
 
 mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
@@ -31,17 +31,16 @@ if (app.get('env') != 'test') app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // ROUTES FOR OUR API
 // =============================================================================
-var pharmacies=require('./routes/pharmacies_route');
-var orders=require('./routes/order_log_route');
-var sales=require('./routes/sale_log_route');
-var restocks=require('./routes/restock_log_route');
-var logs=require('./routes/activity_route');
-var presentations=require('./routes/presentation_route');
+var pharmacies = require('./routes/pharmacies_route');
+var orders = require('./routes/order_log_route');
+var sales = require('./routes/sale_log_route');
+var restocks = require('./routes/restock_log_route');
+var logs = require('./routes/activity_route');
 
 // REGISTER OUR ROUTES ------------------
 app.use('/api/', pharmacies);
@@ -49,7 +48,6 @@ app.use('/api/', orders);
 app.use('/api/', sales);
 app.use('/api/', restocks);
 app.use('/api/', logs);
-app.use('/api', presentations);
 
 //test
 //var order=require('./test/test-routes');
@@ -60,7 +58,7 @@ app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-  if(req) console.log('PharmacyManagement working');
+  if (req) console.log('PharmacyManagement working');
 });
 
 // error handler
@@ -73,59 +71,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
-
-
-
-
-// **************** TESTES **************** RETIRAR ****************
-/*
-var phar = require('./test/PharmacyObjectTest');
-console.log('Pharmacy example');
-console.log(phar.pharmacy[0]);
-console.log('++++++++++++++++++++++++');
-var med = require('./test/MedicinePresentationObjectTest');
-console.log('Medine Presentation example');
-console.log(med.presentations[0]);
-console.log('++++++++++++++++++++++++');
-var o = require('./test/OrderObjectTest');
-console.log('Order example');
-console.log(o.orders[0]);
-console.log('++++++++++++++++++++++++');
-var re = require('./test/RestockObjectTest');
-console.log('Restock example');
-console.log(re.restocks[0]);
-console.log('++++++++++++++++++++++++');
-var s = require('./test/SaleObjectTest');
-
-
-console.log('Sale example');
-console.log(s.sales[0]);
-console.log('++++++++++++++++++++++++');
-
-console.log(phar.pharmacy[0].name);
-console.log(phar.pharmacy[0].location);
-console.log(phar.pharmacy[0].stocks);
-
-
-var update = require('./services/UpdateStockService');
-
-var medicinePresentationTest = {
-  drug: "drug3",
-  medicine: "medicine2",
-  form: "comprimido",
-  concentration: "50mg",
-  packageQtt: "24",
-  id_medicine: "5a35cc24ceee9e24764ba89f",
-  id_presentation: "5a35cc24ceee9e24764ba8a2"
-};
-
-update.updateStock('5a37a9cfd0845f239cd346b8', medicinePresentationTest, 1);
-*/
-// **************** FIM TESTES **************** RETIRAR ****************
-
-
-
 
 module.exports = app;

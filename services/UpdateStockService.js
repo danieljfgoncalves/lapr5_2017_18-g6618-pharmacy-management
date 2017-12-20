@@ -14,11 +14,11 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
         var ret;
         Pharmacy.findById(id_phamacy, function (err, pharmacy) {
             if (err)
-                ret = { message: 'ERROR: ' + err , flag: false };
+                ret = { message: 'ERROR: ' + err };
             if (pharmacy == undefined) {
-                ret = { message: "There aren´t registered pharmacies.", flag: false };
+                ret = { message: "There aren´t registered pharmacies." };
             } else if(quantity <= 0){
-                ret = { message: 'It was not possible finish operation! Negative quantity!', flag: false };
+                ret = { message: 'It was not possible finish operation! Negative quantity!' };
             } else {
 
                 for (let i = 0; i < pharmacy.stocks.length; i++) {
@@ -37,7 +37,7 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
                         }
                          
                         if (final_quant < 0) {
-                            ret = { message: 'It was not possible finish operation! Insufficient Stock!', flag: false };
+                            ret = { message: 'It was not possible finish operation! Insufficient Stock!' };
                             resolve(ret);
                         } else if (final_quant < pharmacy.stocks[i].minQuantity) {
 
@@ -56,18 +56,13 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
                     medicinePresentation: medicinePresentation
                 };
 
-                var stock = {
-                    quantity: quantity,
-                    medicinePresentation: medicinePresentation
-                };
-
                 if (!flag) {
                     pharmacy.stocks.push(stock);
                 }
 
                 pharmacy.save(function (err) {
-                    if (err) ret = { message: 'ERROR' + err, flag: false };
-                    ret = { message: 'Stock updated!', pharmacy, flag: true };
+                    if (err) ret = { message: 'ERROR' + err };
+                    ret = { message: 'Stock updated!', pharmacy };
                 });
             }
 

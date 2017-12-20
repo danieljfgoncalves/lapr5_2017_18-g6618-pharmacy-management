@@ -34,13 +34,37 @@ exports.get_restock = function (req, res) {
     })
 }
 
+// GET /api/restock/medicine/{name}
+exports.get_restock_medicine_name = function (req, res) {
+    Restock.find({
+        '_type': "Restock",
+        'medicinePresentation.medicine': req.params.name,
+    }, function (err, restock) {
+        if (err) return res.status(500).send(err);
+        if (!restock) return res.status(404).send("There isn´t a restock of a medicine with the given name.");
+        return res.status(200).send(restock);
+    })
+}
+
+// GET /api/restock/drug/{name}
+exports.get_restock_drug_name = function (req, res) {
+    Restock.find({
+        '_type': "Restock",
+        'medicinePresentation.drug': req.params.name,
+    }, function (err, restock) {
+        if (err) return res.status(500).send(err);
+        if (!restock) return res.status(404).send("There isn´t a restock of a drug with the given name.");
+        return res.status(200).send(restock);
+    })
+}
+
 // POST /api/restock
 exports.post_restock = function (req, res) {
-    var restock = new Restock( {
+    var restock = new Restock({
         id_pharmacy: req.body.id_pharmacy,
         quantity: req.body.quantity,
-        medicinePresentation: req.body.medicinePresentation        
-    });    
+        medicinePresentation: req.body.medicinePresentation
+    });
 
     Promise.join(
         update.updateStock(
@@ -49,12 +73,12 @@ exports.post_restock = function (req, res) {
             restock.quantity,
             config.sub),
         function (check) {
-       
+
             restock.save(function (err) {
                 if (err) return res.status(500).send(err);
                 return res.status(201).json({ message: 'Restock Created', restock });
             })
-           
+
         });
 
 }

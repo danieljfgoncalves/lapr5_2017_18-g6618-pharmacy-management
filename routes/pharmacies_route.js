@@ -17,7 +17,13 @@ router.get('/pharmacy', pharmaciesController.get_pharmacies);
 router.get('/pharmacy/:id', pharmaciesController.get_pharmacy);
 
 // GET /api/pharmacy/{id}/stock/{id}
-router.get('/pharmacy/:pharmacyId/stock/:stockId', pharmaciesController.get_pharmacy_stock);
+router.get('/pharmacy/:id/stock/:stockId', pharmaciesController.get_pharmacy_stock);
+
+// GET /api/pharmacy/{id}/stock/medicine/{name}
+router.get('/pharmacy/:id/stock/medicine/:name', pharmaciesController.get_pharmacy_medicine_stock);
+
+// GET /api/pharmacy/{id}/stock/drug/{name}
+router.get('/pharmacy/:id/stock/drug/:name', pharmaciesController.get_pharmacy_drug_stock);
 
 // GET /api/pharmacy/{id}/order
 router.get('/pharmacy/:id/order', pharmaciesController.get_pharmacy_orders);

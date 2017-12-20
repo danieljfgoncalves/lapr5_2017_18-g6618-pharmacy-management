@@ -13,6 +13,12 @@ router.use('/order_log_route', middlewares.authenticateToken);
 // GET /api/order/
 router.get('/order', ordersController.get_orders);
 
+// GET /api/order/medicine/{name}
+router.get('/order/medicine/:name', ordersController.get_order_medicine_name);
+
+// GET /api/order/drug/{name}
+router.get('/order/drug/:name', ordersController.get_order_drug_name);
+
 // GET /api/order/{id}/
 router.get('/order/:id', ordersController.get_order);
 
