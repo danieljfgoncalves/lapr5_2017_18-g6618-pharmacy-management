@@ -168,13 +168,11 @@ exports.get_pharmacy_sales = function (req, res) {
         'id_pharmacy': req.params.id,
         '_type': "Sale"
     }, function (err, sales) {
-        if (err)
-            return res.status(500).send(err);
-        if (sales != undefined) {
-            return res.status(200).json(sales);
-        } else {
-            return res.status(400).send("There aren´t registered sales.");
-        }
+        if (err) return res.status(500).send(err);
+        if (sales != undefined) return res.status(200).json(sales);
+   
+        return res.status(400).send("There aren´t registered sales.");
+        
     });
 }
 
@@ -184,13 +182,11 @@ exports.get_pharmacy_restocks = function (req, res) {
         'id_pharmacy': req.params.id,
         '_type': "Restock"
     }, function (err, restocks) {
-        if (err)
-            return res.status(500).send(err);
-        if (restocks != undefined) {
-            return res.status(200).json(restocks);
-        } else {
-            return res.status(400).send("There aren´t registered restocks.");
-        }
+        if (err) return res.status(500).send(err);
+        if (restocks != undefined) return res.status(200).json(restocks);
+  
+        return res.status(400).send("There aren´t registered restocks.");
+      
     });
 }
 

@@ -8,13 +8,10 @@ exports.get_orders = function(req,res){
     Order.find({
         _type: "Order"
     },function (err, orders) {
-        if (err)
-            return res.status(500).send(err);
-        if (orders != undefined) {
-            return res.status(200).json(orders);
-        } else {
-            return res.status(400).send("There aren´t registered orders.");
-        }
+        if (err) return res.status(500).send(err);
+        if (orders != undefined)  return res.status(200).json(orders);
+        return res.status(400).send("There aren´t registered orders.");
+
     });
 }
 

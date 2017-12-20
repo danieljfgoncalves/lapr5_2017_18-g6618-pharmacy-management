@@ -15,13 +15,11 @@ exports.get_restocks = function (req, res) {
     Restock.find({
         _type: "Restock"
     }, function (err, restocks) {
-        if (err)
-            return res.status(500).send(err);
-        if (restocks != undefined) {
-            return res.status(200).json(restocks);
-        } else {
-            return res.status(400).send("There aren´t registered restocks.");
-        }
+        if (err) return res.status(500).send(err);
+        if (restocks != undefined) return res.status(200).json(restocks);
+
+        return res.status(400).send("There aren´t registered restocks.");
+        
     });
 }
 

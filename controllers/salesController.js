@@ -14,13 +14,11 @@ exports.get_sales = function (req, res) {
     Sale.find({
         _type: "Sale"
     }, function (err, sales) {
-        if (err)
-            return res.status(500).send(err);
-        if (sales != undefined) {
-            return res.status(200).json(sales);
-        } else {
-            return res.status(400).send("There aren´t registered sales.");
-        }
+        if (err) return res.status(500).send(err);
+        if (sales != undefined) return res.status(200).json(sales);
+
+         return res.status(400).send("There aren´t registered sales.");
+
     });
 }
 
@@ -39,13 +37,11 @@ exports.get_receipt = function (req, res) {
         '_type': "Sale",
         'prescription.receiptId': req.params.id
     }, function (err, sales) {
-        if (err)
-            return res.status(500).send(err);
-        if (sales != undefined) {
-            return res.status(200).json(sales);
-        } else {
-            return res.status(400).send("There aren´t registered sales.");
-        }
+        if (err) return res.status(500).send(err);
+        if (sales != undefined) return res.status(200).json(sales);
+        
+        return res.status(400).send("There aren´t registered sales.");
+  
     });
 }
 
@@ -56,13 +52,10 @@ exports.get_prescriptions = function (req, res) {
         'prescription.receiptId': req.params.id,
         'prescription.prescriptionId': req.params.idPresc
     }, function (err, sales) {
-        if (err)
-            return res.status(500).send(err);
-        if (sales != undefined) {
-            return res.status(200).json(sales);
-        } else {
-            return res.status(400).send("There aren´t registered sales.");
-        }
+        if (err)  return res.status(500).send(err);
+        if (sales != undefined) return res.status(200).json(sales);
+      
+        return res.status(400).send("There aren´t registered sales.");
     });
 }
 
