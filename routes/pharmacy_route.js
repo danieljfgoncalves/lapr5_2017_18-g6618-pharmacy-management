@@ -8,7 +8,7 @@ var middlewares = require('../middlewares/middleware');
 var pharmaciesController=require('../controllers/pharmaciesController');
 
 // Add Authentication middleware
-router.use('/pharmacies_route', middlewares.authenticateToken);
+router.use('/pharmacy_route', middlewares.authenticateToken);
 
 // GET /api/pharmacy
 router.get('/pharmacy', pharmaciesController.get_pharmacies);
