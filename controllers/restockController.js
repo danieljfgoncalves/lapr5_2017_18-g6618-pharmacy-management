@@ -69,7 +69,7 @@ exports.post_restock = function (req, res) {
             restock.id_pharmacy,
             restock.medicinePresentation,
             restock.quantity,
-            config.sub),
+            config.add),
         function (check) {
 
             restock.save(function (err) {

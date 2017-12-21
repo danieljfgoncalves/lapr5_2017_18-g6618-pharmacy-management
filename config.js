@@ -24,5 +24,7 @@ module.exports = {
                 "Content-Type": "application/json",
             }
         }
-    }
+    },
+
+    'orders_url': 'http://lapr5-g6618-orders-management.azurewebsites.net/api/orders'
 }
