@@ -11,9 +11,9 @@ var medicinePController=require('../controllers/medicinePresentationsController'
 router.use('/medicine_presentation_route', middlewares.authenticateToken);
 
 // GET /api/medicinePresentation
-router.get('/medicinePresentation', medicinePController.get_med_presentation);
+router.get('/medicinePresentation', medicinePController.get_med_presentations);
 
 // GET /api/medicinePresentation/{id}/
-router.get('/medicinePresentation/:id', medicinePController.get_med_presentations);
+router.get('/medicinePresentation/:id', medicinePController.get_med_presentation);
 
 module.exports=router;

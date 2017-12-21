@@ -33,19 +33,8 @@ exports.getPresentations = function () {
 
     return new Promise((resolve, reject) => {
 
-        client.get(config.medicines_backend.urlPresentations, config.medicines_backend.args, function (data, response) {
+        client.get(config.medicines_backend.urlPresentationsDetailed, config.medicines_backend.args, function (data) {
             resolve(data);
         })
     });
-}
-
-//presentations detailed from Medicines backend
-exports.getPresentationsDetailed = function () {
-   
-    return new Promise((resolve, reject) => {
-        
-                client.get(config.medicines_backend.urlPresentationsDetailed, config.medicines_backend.args, function (data, response) {
-                    resolve(data);
-                })
-            });
 }
