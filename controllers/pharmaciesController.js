@@ -196,6 +196,7 @@ exports.post_pharmacy = function (req, res) {
     var pharmacy = new Pharmacy();
 
     pharmacy.name = req.body.name;
+    pharmacy.timeRestriction = req.body.timeRestriction;
 
     //finding location variables
     var location = req.body.location;

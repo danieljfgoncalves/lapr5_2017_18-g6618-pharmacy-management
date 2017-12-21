@@ -13,7 +13,7 @@ var StockShema = mongoose.Schema({
     minQuantity: {
         type: Number,
         default: 10
-    },
+    },    
     medicinePresentation: {
         type: MedicinePresentationSchema,
         ref: 'MedicinePresentation',
@@ -29,6 +29,7 @@ StockShema.path('medicinePresentation').validate(medicinePresentation => {
 var PharmacySchema = mongoose.Schema({
     name: String,
     location: { type: LocationSchema, ref: 'Location', required: true },
+    timeRestriction: String,
     stocks: [{
         type: StockShema
     }]

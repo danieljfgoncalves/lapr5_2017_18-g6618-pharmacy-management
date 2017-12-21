@@ -26,7 +26,8 @@ exports.pharmacy = [
                 minQuantity: 10,
                 medicinePresentation: presentation.presentations[1]
             }
-        ]
+        ],
+        timeRestriction: "17:00"
     },
     {
         name: "Pharmacy2",
@@ -52,7 +53,8 @@ exports.pharmacy = [
                 minQuantity: 10,
                 medicinePresentation: presentation.presentations[1]
             }
-        ]
+        ],
+        timeRestriction: "17:00"
     },
     {
         name: "Pharmacy3",
@@ -78,7 +80,8 @@ exports.pharmacy = [
                 minQuantity: 10,
                 medicinePresentation: presentation.presentations[1]
             }
-        ]
+        ],
+        timeRestriction: "17:00"
     },
     {
         name: "Pharmacy4",
@@ -104,7 +107,8 @@ exports.pharmacy = [
                 minQuantity: 10,
                 medicinePresentation: presentation.presentations[1]
             }
-        ]
+        ],
+        timeRestriction: "17:00"
     },
     {
         name: "Pharmacy5",
@@ -130,7 +134,8 @@ exports.pharmacy = [
                 minQuantity: 10,
                 medicinePresentation: presentation.presentations[1]
             }
-        ]
+        ],
+        timeRestriction: "17:00"
     }
 
 ];
