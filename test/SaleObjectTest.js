@@ -1,35 +1,47 @@
 var prescription = require('./MedicinePresentationObjectTest');
 
 exports.sales = [
-    /*
     {
-        quantity: 12,
+        id_pharmacy:  pharmacy.pharmacy[0]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[0],
     },
     {
-        quantity: 34,
+        id_pharmacy:  pharmacy.pharmacy[0]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[1],
     },
     {
-        quantity: 12,
-        prescription: prescription.prescriptions[4],
+        id_pharmacy:  pharmacy.pharmacy[0]._id,
+        date: "2017-12-21",
+        quantity: 1,
+        prescription: prescription.prescriptions[1],
     },
     {
-        quantity: 30,
+        id_pharmacy:  pharmacy.pharmacy[1]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[2],
     },
     {
-        quantity: 18,
+        id_pharmacy:  pharmacy.pharmacy[1]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[0],
     },
     {
-        quantity: 44,
+        id_pharmacy:  pharmacy.pharmacy[2]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[3],
     }, 
     {
-        quantity: 44,
+        id_pharmacy:  pharmacy.pharmacy[2]._id,
+        date: "2017-12-21",
+        quantity: 1,
         prescription: prescription.prescriptions[2],
     }
-    */
 ];
 

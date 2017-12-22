@@ -3,6 +3,7 @@ var presentation = require('./MedicinePresentationObjectTest');
 
 exports.pharmacy = [
     {
+        _id = 1,
         name: "Pharmacy1",
         location: location.locations[4],
         stocks: [
@@ -30,6 +31,7 @@ exports.pharmacy = [
         timeRestriction: "17:00"
     },
     {
+        _id = 2,
         name: "Pharmacy2",
         location: location.locations[2],
         stocks: [
@@ -57,6 +59,7 @@ exports.pharmacy = [
         timeRestriction: "17:00"
     },
     {
+        _id = 3,
         name: "Pharmacy3",
         location: location.locations[0],
         stocks: [
@@ -84,6 +87,7 @@ exports.pharmacy = [
         timeRestriction: "17:00"
     },
     {
+        _id = 4,
         name: "Pharmacy4",
         location: location.locations[1],
         stocks: [
@@ -111,6 +115,7 @@ exports.pharmacy = [
         timeRestriction: "17:00"
     },
     {
+        _id = 5,
         name: "Pharmacy5",
         location: location.locations[5],
         stocks: [
