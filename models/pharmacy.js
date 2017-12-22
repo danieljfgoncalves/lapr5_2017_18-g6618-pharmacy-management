@@ -27,7 +27,8 @@ StockShema.path('medicinePresentation').validate(medicinePresentation => {
 }, 'The order must have one presentation.');
 
 var PharmacySchema = mongoose.Schema({
-    name: String,
+    name: { type: String,
+        required: true},
     location: { type: LocationSchema, ref: 'Location', required: true },
     timeRestriction: String,
     stocks: [{

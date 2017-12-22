@@ -33,7 +33,7 @@ var Sale = require('../models/Sale');
 
 describe('  ***  PHARMACY MANAGEMENT TESTS  ***  ', function () {
 
-    describe( 'TESTING: Pharmacy' , function () {
+    describe('TESTING: Pharmacy', function () {
 
         var correctName = "PharmacyTest";
 
@@ -56,9 +56,44 @@ describe('  ***  PHARMACY MANAGEMENT TESTS  ***  ', function () {
                         done();
                     });
             });
-     
-     
-     });
+        it('[POST] shouldn\'t register pharmacy with no name',
+            function (done) {
+                chai.request(server)
+                    .post('/api/pharmacy')
+                    .send({
+                        location: locationObj.locations[0],
+                        timeRestriction: "17:00"
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(500);
+                        done();
+                    });
+            });
+        it('[POST] shouldn\'t register pharmacy with no location',
+            function (done) {
+                chai.request(server)
+                    .post('/api/pharmacy')
+                    .send({
+                        name: correctName,
+                        timeRestriction: "17:00"
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(500);
+                        done();
+                    });
+            });
+
+
+    });
+
+    describe('TESTING: Sale', function () {
+
+    });
+
+    describe('TESTING: Restock', function () {
+
+    });
+
 
 
 });
