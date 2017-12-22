@@ -1,4 +1,5 @@
-var prescription = require('./MedicinePresentationObjectTest');
+var prescription = require('./PrescriptionObjectTest');
+var pharmacy = require('./PharmacyObjectTest');
 
 exports.sales = [
     {

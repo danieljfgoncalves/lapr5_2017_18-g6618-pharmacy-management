@@ -1,7 +1,6 @@
 // controllers/activityController.js
 
 var nodeRestClient = require('node-rest-client');
-var ActivityLog = require('../models/ActivityLog');
 var Sale = require('../models/Sale');
 
 // GET /api/pharmaciesLogs
