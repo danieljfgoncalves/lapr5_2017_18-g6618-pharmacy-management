@@ -13,65 +13,17 @@ var medicinesClient = require('../helpers/medicinesRequests');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 mongoose.Promise = Promise;
+var update = require('../services/UpdateStockService');
 
-var fillStock = function (s) {
-    var stock = {
-        "id_pharmacy": s.id_pharmacy,
-        "quantity": s.quantity,
-        "minQuantity": s.minQuantity,
-        "medicinePresentation": s.medicinePresentation
-    }
-    return stock;
-}
-
-var fillPresentation = function (stock) {
-    var idStock = stock.id_stock;
-    var quantity = stock.quantity;
-    var idPresentation = stock.id_presentation;
-
-    if (idPresentation == undefined) {
-        idPresentation = stock.presentation.id_presentation;
-    }
-
-    if (idPresentation !== null) {
-
-
-        var presentation = medicinesClient.getPresentation(idPresentation);
-
-        if (presentation) {
-            fillStock(quantity, presentation)
-        }
-    }
-    return stock;
-}
-
-
-var verifyLocation = function (loc) {
-
-    return new Promise((resolve, reject) => {
-        Pharmacy.findOne({
-            location: loc
-        }), function (err, finded) {
-            if (err) return res.status(500).send(err);
-            if (finded) return res.status(404).send('There is already a pharmacy on inserted location ');
-            resolve(finded);
-        };
-    });
-}
 
 // GET /api/pharmacy
 exports.get_pharmacies = function (req, res) {
 
     Pharmacy.find(function (err, pharmacies) {
-        if (err)
-            return res.status(500).send(err);
-        if (pharmacies != undefined) {
-            return res.status(200).json(pharmacies);
-        } else {
-            return res.status(400).send("There aren´t registered pharmacies.");
-        }
+        if (err)  return res.status(500).send(err);
+        if (pharmacies != undefined) return res.status(200).json(pharmacies);
+        return res.status(400).send("There aren´t registered pharmacies.");
     });
-
 }
 
 // GET /api/pharmacy/{id}
@@ -85,65 +37,37 @@ exports.get_pharmacy = function (req, res) {
 
 // GET /api/pharmacy/{id}/stock/{id}
 exports.get_pharmacy_stock = function (req, res) {
-    Pharmacy.find({
-        '_id': req.params.id
-    },
-        function (err, phar) {
-            if (err)
-                return res.status(500).send(err);
-            if (phar != undefined) {
-                var s;
-                for (let i = 0; i < phar[0].stocks.length; i++) {
-                    if (phar[0].stocks[i]._id == req.params.stockId) {
-                        s = fillStock(phar[0].stocks[i]);
-                        return res.status(200).json(s);
-                    }
-                }
-                return res.status(400).send("There isn´t a pharmacy with the given stock id.");
-            }
-        });
+
+    Pharmacy.find({ '_id': req.params.id},
+        {'stocks': {'$elemMatch':{'_id':req.params.stockId}}}
+        , function (err, st) {
+            if (err) return res.status(500).send(err);
+            if(st[0].stocks[0]==undefined) return res.status(404).json('There isn´t stock with the id entered in pharmacy');
+            return res.status(200).json(st);
+        })     
 }
 
 // GET /api/pharmacy/{id}/stock/medicine/{name}
 exports.get_pharmacy_medicine_stock = function (req, res) {
-    Pharmacy.find({
-        '_id': req.params.id,
-    },
-        function (err, phar) {
-            if (err)
-                return res.status(500).send(err);
-            if (phar != undefined) {
-                var s;
-                for (let i = 0; i < phar[0].stocks.length; i++) {
-                    if (phar[0].stocks[i].medicinePresentation.medicine == req.params.name) {
-                        s = fillStock(phar[0].stocks[i]);
-                        return res.status(200).json(s);
-                    }
-                }
-                return res.status(400).send("There isn´t a pharmacy with the given medicine.");
-            }
-        });
+    Pharmacy.find({ '_id': req.params.id},
+        { 'stocks': {'$elemMatch': { 'medicinePresentation.medicine': req.params.name}}} 
+        , function (err, st) {
+            if (err) return res.status(500).send(err);
+            if(st[0].stocks[0]==undefined) return res.status(404).json('There aren´t stocks with the medicine name entered');
+            return res.status(200).json(st);
+        })
 }
 
 // GET /api/pharmacy/{id}/stock/drug/{name}
 exports.get_pharmacy_drug_stock = function (req, res) {
-    Pharmacy.find({
-        '_id': req.params.id,
-    },
-        function (err, phar) {
-            if (err)
-                return res.status(500).send(err);
-            if (phar != undefined) {
-                var s;
-                for (let i = 0; i < phar[0].stocks.length; i++) {
-                    if (phar[0].stocks[i].medicinePresentation.drug == req.params.name) {
-                        s = fillStock(phar[0].stocks[i]);
-                        return res.status(200).json(s);
-                    }
-                }
-                return res.status(400).send("There isn´t a pharmacy with the given drug.");
-            }
-        });
+    Pharmacy.find({'_id': req.params.id },
+        { 'stocks': { '$elemMatch': { 'medicinePresentation.drug': req.params.name }}}
+        , function (err, st) {
+            if (err) return res.status(500).send(err);
+            if(st[0].stocks[0]==undefined) return res.status(404).json('There aren´t stocks with the drug name entered');
+        
+            return res.status(200).json(st);
+        })
 }
 
 // GET /api/pharmacy/{id}/order
@@ -152,13 +76,9 @@ exports.get_pharmacy_orders = function (req, res) {
         'id_pharmacy': req.params.id,
         '_type': "Order"
     }, function (err, orders) {
-        if (err)
-            return res.status(500).send(err);
-        if (orders != undefined) {
-            return res.status(200).json(orders);
-        } else {
-            return res.status(400).send("There aren´t registered orders.");
-        }
+        if (err) return res.status(500).send(err);
+        if (orders != undefined) return res.status(200).json(orders);
+        return res.status(400).send("There aren´t registered orders.");    
     });
 }
 
@@ -170,9 +90,9 @@ exports.get_pharmacy_sales = function (req, res) {
     }, function (err, sales) {
         if (err) return res.status(500).send(err);
         if (sales != undefined) return res.status(200).json(sales);
-   
+
         return res.status(400).send("There aren´t registered sales.");
-        
+
     });
 }
 
@@ -184,50 +104,46 @@ exports.get_pharmacy_restocks = function (req, res) {
     }, function (err, restocks) {
         if (err) return res.status(500).send(err);
         if (restocks != undefined) return res.status(200).json(restocks);
-  
+
         return res.status(400).send("There aren´t registered restocks.");
-      
+
     });
 }
 
 // POST /api/pharmacy
 exports.post_pharmacy = function (req, res) {
 
-    var pharmacy = new Pharmacy();
-
-    pharmacy.name = req.body.name;
-    pharmacy.timeRestriction = req.body.timeRestriction;
-
     //finding location variables
-    var location = req.body.location;
+    Location: loc = req.body.location;
 
-    if (location == undefined) {
+    if (loc == undefined) {
         var latitude = req.body.latitude;
         var longitude = req.body.longitude;
-        var locationCreated = new Location({
+        loc = new Location({
             latitude: latitude,
             longitude: longitude
         });
-
-        //Each location must have just one pharmacy
-        verifyLocation(locationCreated);
-        pharmacy.location = locationCreated;
-    } else {
-        //Each location must have just one pharmacy
-        verifyLocation(req.body.location);
-        pharmacy.location = req.body.location;
     }
 
-    async.each(req.body.stocks, function (stock, callback) {
-        var stock = fillPresentation(req.body.stocks);
-        pharmacy.stocks.push(stock);
-        callback();
-    }, function (err) {
+    var pharmacy;
+    //Each location must have just one pharmacy
+    Pharmacy.find({
+        'location.latitude': loc.latitude,
+        'location.longitude':loc.longitude
+    }, function (err, finded) {
+        if (err) return res.status(500).send(err);
+        if (finded.length!=0) return res.status(404).send('There is already a pharmacy in inserted location.');
 
-        pharmacy.save(function (err) {
-            if (err) return res.status(500).send(err);
-            return res.status(201).json({ message: 'Pharmacy Created', pharmacy })
-        })
-    });
+        pharmacy = new Pharmacy({
+            location: loc,
+            name: req.body.name,
+            timeRestriction: req.body.timeRestriction,
+        });
 
+        pharmacy.save(function (err2) {
+            if(err2) return res.status(500).send(err2);
+
+            return res.status(201).send(pharmacy);
+         });
+        });
 }

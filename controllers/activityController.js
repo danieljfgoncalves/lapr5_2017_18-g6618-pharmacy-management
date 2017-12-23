@@ -3,7 +3,7 @@
 var nodeRestClient = require('node-rest-client');
 var Sale = require('../models/Sale');
 
-// GET /api/pharmaciesLogs
+// GET /api/pharmacyLog
 exports.get_logs = function (req, res) {
     Sale.find(function (err, sales) {
         if (err) return res.status(500).send(err);
@@ -14,7 +14,7 @@ exports.get_logs = function (req, res) {
     });
 }
 
-// GET /api/pharmaciesLogs/{id}
+// GET /api/pharmacyLog/{id}
 exports.get_log = function (req, res) {
 
     Sale.findById(req.params.id, function (err, sale) {
@@ -24,7 +24,7 @@ exports.get_log = function (req, res) {
     })
 }
 
-// GET /api/pharmaciesLogs/date/{?dateI}
+// GET /api/pharmacyLog/date/{?dateI}
 exports.get_log_date = function (req, res) {
     Sale.find(function (err, logs) {
         if (err) return res.status(500).send(err);
@@ -47,7 +47,7 @@ exports.get_log_date = function (req, res) {
     });
 }
 
-// GET /api/pharmaciesLogs/{date}/since
+// GET /api/pharmacyLog/{date}/since
 exports.get_log_sinceDate = function (req, res) {
     Sale.find(function (err, logs) {
         if (err) return res.status(500).send(err);
