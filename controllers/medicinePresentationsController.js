@@ -11,7 +11,7 @@ mongoose.Promise = Promise;
 exports.get_med_presentations = function(req,res){
 
     Promise.join(
-        medicineClient.getPresentations(),
+        medicineClient.getPresentations(req.medicinesToken.access_token),
         function (pst) {
             return res.status(200).json(pst);
     });
@@ -21,7 +21,7 @@ exports.get_med_presentations = function(req,res){
 // GET /api/medicinePresentation/:id
 exports.get_med_presentation = function(req,res){
     Promise.join(
-        medicineClient.getPresentation(req.params.id),
+        medicineClient.getPresentation(req.medicinesToken.access_token, req.params.id),
         function (pst) {
             return res.status(200).json(pst);
     });
