@@ -43,6 +43,7 @@ var restocks = require('./routes/restock_log_route');
 var logs = require('./routes/activity_route');
 var receipts = require('./routes/receipt_route');
 var medicinePresentations = require('./routes/medicine_presentation_route');
+var status = require('./routes/status_route');
 
 // REGISTER OUR ROUTES ------------------
 app.use('/api/', pharmacies);
@@ -52,6 +53,7 @@ app.use('/api/', restocks);
 app.use('/api/', logs);
 app.use('/api/', receipts);
 app.use('/api/', medicinePresentations);
+app.use('/api/', status);
 
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 // catch 404 and forward to error handler
