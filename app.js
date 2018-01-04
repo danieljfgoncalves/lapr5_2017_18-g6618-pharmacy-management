@@ -36,6 +36,7 @@ app.use(bodyParser.json());
 
 // ROUTES FOR OUR API
 // =============================================================================
+var index = require('./routes/index');
 var pharmacies = require('./routes/pharmacy_route');
 var orders = require('./routes/order_log_route');
 var sales = require('./routes/sale_log_route');
@@ -46,6 +47,7 @@ var medicinePresentations = require('./routes/medicine_presentation_route');
 var status = require('./routes/status_route');
 
 // REGISTER OUR ROUTES ------------------
+app.use('/', index);
 app.use('/api/', pharmacies);
 app.use('/api/', orders);
 app.use('/api/', sales);
