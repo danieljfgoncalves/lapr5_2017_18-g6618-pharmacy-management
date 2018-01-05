@@ -3,6 +3,8 @@
 var express     = require('express');
 var router      = express.Router();
 var middlewares = require('../middlewares/middleware');
+var middlewares = require('../middlewares/middleware');
+var receiptsAuth = require('../middlewares/receiptsAuthentication');
 
 // require controller modules
 var salesController=require('../controllers/salesController');
@@ -29,6 +31,6 @@ router.get('/sale/medicine/:name', salesController.get_sale_medicine_name);
 router.get('/sale/drug/:name', salesController.get_sale_drug_name);
 
 // POST /api/sale
-router.post('/sale', salesController.post_sale);
+router.post('/sale', receiptsAuth.authenticateReceiptsManagement, salesController.post_sale);
 
 module.exports=router;

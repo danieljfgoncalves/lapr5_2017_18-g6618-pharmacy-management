@@ -3,6 +3,7 @@
 var express     = require('express');
 var router      = express.Router();
 var middlewares = require('../middlewares/middleware');
+var receiptsAuth = require('../middlewares/receiptsAuthentication');
 
 // require controller modules
 var receiptsController=require('../controllers/receiptsController');
@@ -11,6 +12,6 @@ var receiptsController=require('../controllers/receiptsController');
 router.use('/receipt_route', middlewares.authenticateToken);
 
 // GET /api/receipt/{id}/
-router.get('/receipt/:id', receiptsController.get_receipt);
+router.get('/receipt/:id', receiptsAuth.authenticateReceiptsManagement, receiptsController.get_receipt);
 
 module.exports=router;
