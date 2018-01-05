@@ -1,7 +1,9 @@
 // routes/sale_log_route.js
 
-var express = require('express');
-var router  = express.Router();
+var express     = require('express');
+var router      = express.Router();
+
+var receiptsAuth = require('../middlewares/receiptsAuthentication');
 
 var salesController = require('../controllers/salesController');
 
@@ -25,7 +27,7 @@ router.get('/sale/medicine/:name', salesController.get_sale_medicine_name);
 router.get('/sale/drug/:name', salesController.get_sale_drug_name);
 
 // POST /api/sale
-router.post('/sale', salesController.post_sale);
+router.post('/sale', receiptsAuth.authenticateReceiptsManagement, salesController.post_sale);
 
 
 module.exports = router;

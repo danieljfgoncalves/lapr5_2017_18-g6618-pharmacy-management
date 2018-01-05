@@ -19,11 +19,10 @@ module.exports = {
 
         'urlPresentations': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/',
         'urlPresentationsDetailed': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed',
-        'args': {
-            'headers': {
-                "Content-Type": "application/json",
-            }
-        }
+    },
+
+    'receipts_backend': {
+        'urlReceipt': 'http://lapr5-g6618-receipts-management.azurewebsites.net/api/medicalReceipts/'
     },
 
     'orders_url': 'http://lapr5-g6618-orders-management.azurewebsites.net/api/orders'
