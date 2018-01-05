@@ -11,10 +11,12 @@ var medicinePController = require('../controllers/medicinePresentationsControlle
 
 
 // authentication middlewares
-router.use('/medicinePresentation', 
-    handleToken.handleToken, 
-    requireRoles.requireRoles(['admin', 'pharmacist']), 
-    medicinesAuth.authenticateMedicinesManagement);
+if (process.env.NODE_ENV != 'test') {
+    router.use('/medicinePresentation',
+        handleToken.handleToken,
+        requireRoles.requireRoles(['admin', 'pharmacist']));
+}
+router.use('/medicinePresentation', medicinesAuth.authenticateMedicinesManagement);
 
 // GET /api/medicinePresentation
 router.get('/medicinePresentation', medicinePController.get_med_presentations);

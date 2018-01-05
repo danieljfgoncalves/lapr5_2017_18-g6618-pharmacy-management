@@ -8,11 +8,12 @@ var handleToken   = require('../middlewares/handleToken');
 
 var pharmaciesController = require('../controllers/pharmaciesController');
 
-
-// authentication middlewares
-router.use('/pharmacy',
-    handleToken.handleToken,
-    requireRoles.requireRoles(['admin', 'pharmacist']));
+if (process.env.NODE_ENV != 'test') {
+    // authentication middlewares
+    router.use('/pharmacy',
+        handleToken.handleToken,
+        requireRoles.requireRoles(['admin', 'pharmacist']));
+}
 
 // GET /api/pharmacy
 router.get('/pharmacy', pharmaciesController.get_pharmacies);
