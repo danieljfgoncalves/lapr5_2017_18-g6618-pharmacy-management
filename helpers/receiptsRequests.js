@@ -8,15 +8,15 @@ var Promise = require('bluebird');
 mongoose.Promise = Promise;
 
 //prescriptions from ReceiptsMedicine backend
-exports.getReceipt = function (receiptId, header){
-    if(receiptId== null) return;
+exports.getReceipt = function (receiptId, header) {
+    if (receiptId == null) return;
 
     return new Promise((resolve, reject) => {
-      
+
         var url = config.receipts_backend.urlReceipt + receiptId;
 
-        var test=header;
-  
+        var test = header;
+
         var args = {
             headers: {
                 "Authorization": header.Authorization,
@@ -24,9 +24,9 @@ exports.getReceipt = function (receiptId, header){
                 'client_id': header.client_id,
                 'client_secret': header.client_secret
             },
-            json:true
+            json: true
         };
-        
+
 
         client.get(url, args, (data, response) => {
             resolve(data);
@@ -35,13 +35,13 @@ exports.getReceipt = function (receiptId, header){
 }
 
 //prescriptions from ReceiptsMedicine backend
-exports.fillReceipt = function (receiptId, prescriptionId, header){
-    if(receiptId== null || receiptId==null) return;
+exports.fillReceipt = function (receiptId, prescriptionId, header) {
+    if (receiptId == null || receiptId == null) return;
 
     return new Promise((resolve, reject) => {
-      
+
         var url = config.receipts_backend.urlReceipt + receiptId + '/Prescriptions/' + prescriptionId + '/fills';
-  
+
         var args = {
             headers: {
                 "Authorization": header.Authorization,
@@ -49,10 +49,35 @@ exports.fillReceipt = function (receiptId, prescriptionId, header){
                 'client_id': header.client_id,
                 'client_secret': header.client_secret
             },
-            json:true
+            json: true
         };
-        
 
+
+        client.post(url, args, (data, response) => {
+            resolve(data);
+        });
+    })
+}
+
+//login from ReceiptsMedicine backend
+exports.login = function (username, password) {
+    console.log("Username", username);
+    console.log("Password", password);
+
+    if (username == null || password == null) return;
+
+    return new Promise((resolve, reject) => {
+        var url = config.receipts_backend.url + '/authenticate';
+
+        var args = {
+            data: {
+                "username": username,
+                "password": password
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
         client.post(url, args, (data, response) => {
             resolve(data);
         });

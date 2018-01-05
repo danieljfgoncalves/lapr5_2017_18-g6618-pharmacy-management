@@ -15,7 +15,9 @@ var bodyParser = require('body-parser');
 // DATABASE SETUP
 var config = require('./config');
 var mongoose = require('mongoose');
-var mongoOptions = { useMongoClient: true };
+var mongoOptions = {
+  useMongoClient: true
+};
 
 mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
   if (error) {
@@ -31,7 +33,9 @@ if (app.get('env') != 'test') app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 // ROUTES FOR OUR API
@@ -45,6 +49,7 @@ var logs = require('./routes/activity_route');
 var receipts = require('./routes/receipt_route');
 var medicinePresentations = require('./routes/medicine_presentation_route');
 var status = require('./routes/status_route');
+var login = require('./routes/login_route');
 
 // REGISTER OUR ROUTES ------------------
 app.use('/', index);
@@ -56,6 +61,7 @@ app.use('/api/', logs);
 app.use('/api/', receipts);
 app.use('/api/', medicinePresentations);
 app.use('/api/', status);
+app.use('/api/', login);
 
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 // catch 404 and forward to error handler
