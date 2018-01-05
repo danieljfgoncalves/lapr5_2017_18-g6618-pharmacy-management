@@ -1,14 +1,10 @@
 // routes/sale_log_route.js
 
-var express     = require('express');
-var router      = express.Router();
-var middlewares = require('../middlewares/middleware');
+var express = require('express');
+var router  = express.Router();
 
-// require controller modules
-var salesController=require('../controllers/salesController');
+var salesController = require('../controllers/salesController');
 
-// Add Authentication middleware
-router.use('/sale_log_route', middlewares.authenticateToken);
 
 // GET /api/sale
 router.get('/sale', salesController.get_sales);
@@ -31,4 +27,5 @@ router.get('/sale/drug/:name', salesController.get_sale_drug_name);
 // POST /api/sale
 router.post('/sale', salesController.post_sale);
 
-module.exports=router;
+
+module.exports = router;

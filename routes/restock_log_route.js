@@ -1,14 +1,10 @@
 // routes/restock_log_route.js
 
-var express     = require('express');
-var router      = express.Router();
-var middlewares = require('../middlewares/middleware');
+var express = require('express');
+var router  = express.Router();
 
-// require controller modules
-var restocksController=require('../controllers/restockController');
+var restocksController = require('../controllers/restockController');
 
-// Add Authentication middleware
-router.use('/restock_log_route', middlewares.authenticateToken);
 
 // GET /api/restock
 router.get('/restock', restocksController.get_restocks);
@@ -25,4 +21,5 @@ router.get('/restock/drug/:name', restocksController.get_restock_drug_name);
 // POST /api/restock/
 router.post('/restock', restocksController.post_restock);
 
-module.exports=router;
+
+module.exports = router;

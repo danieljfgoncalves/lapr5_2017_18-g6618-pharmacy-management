@@ -1,14 +1,10 @@
 // routes/order_log_route.js
 
-var express     = require('express');
-var router      = express.Router();
-var middlewares = require('../middlewares/middleware');
+var express = require('express');
+var router  = express.Router();
 
-// require controller modules
-var ordersController=require('../controllers/ordersController');
+var ordersController = require('../controllers/ordersController');
 
-// Add Authentication middleware
-router.use('/order_log_route', middlewares.authenticateToken);
 
 // GET /api/order/
 router.get('/order', ordersController.get_orders);
@@ -23,4 +19,4 @@ router.get('/order/drug/:name', ordersController.get_order_drug_name);
 router.get('/order/:id', ordersController.get_order);
 
 
-module.exports=router;
+module.exports = router;
