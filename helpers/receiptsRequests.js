@@ -35,7 +35,7 @@ exports.getReceipt = function (receiptId, header) {
 }
 
 //prescriptions from ReceiptsMedicine backend
-exports.fillReceipt = function (receiptId, prescriptionId, header) {
+exports.fillReceipt = function (receiptId, prescriptionId, quantity, header) {
     if (receiptId == null || receiptId == null) return;
 
     return new Promise((resolve, reject) => {
@@ -43,13 +43,15 @@ exports.fillReceipt = function (receiptId, prescriptionId, header) {
         var url = config.receipts_backend.urlReceipt + receiptId + '/Prescriptions/' + prescriptionId + '/fills';
 
         var args = {
+            data: {
+                "quantity":quantity
+            },
             headers: {
                 "Authorization": header.authorization,
-                'content-type': 'application/json',
+                "Content-Type": "application/json",
                 'client_id': header.client_id,
                 'client_secret': header.client_secret
-            },
-            json: true
+            }
         };
 
 

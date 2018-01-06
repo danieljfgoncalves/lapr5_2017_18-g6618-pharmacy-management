@@ -88,7 +88,7 @@ exports.get_sale_drug_name = function (req, res) {
 exports.post_sale = function (req, res) {
 
     Promise.join(
-        receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.headers),
+        receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
         function (pst) {
             if (pst==undefined || pst==null) return res.status(500).json(pst);
         });
