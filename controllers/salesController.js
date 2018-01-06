@@ -86,9 +86,6 @@ exports.get_sale_drug_name = function (req, res) {
 
 // POST /api/sale
 exports.post_sale = function (req, res) {
-   
-    //request to ReceiptsManagement to fill receipt
-    req.headers.Authorization= "Bearer " + req.receiptsToken.access_token;
 
     Promise.join(
         receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.headers),

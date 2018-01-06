@@ -9,7 +9,6 @@ mongoose.Promise = Promise;
 // GET /api/receipt/:id
 exports.get_receipt = function (req, res) {
 
-    req.headers.Authorization= "Bearer " + req.receiptsToken.access_token;
     Promise.join(
         receiptClient.getReceipt(req.params.id, req.headers),
         function (pst) {

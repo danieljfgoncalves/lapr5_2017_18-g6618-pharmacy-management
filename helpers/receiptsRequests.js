@@ -19,7 +19,7 @@ exports.getReceipt = function (receiptId, header) {
 
         var args = {
             headers: {
-                "Authorization": header.Authorization,
+                "Authorization": header.authorization,
                 'content-type': 'application/json',
                 'client_id': header.client_id,
                 'client_secret': header.client_secret
@@ -44,7 +44,7 @@ exports.fillReceipt = function (receiptId, prescriptionId, header) {
 
         var args = {
             headers: {
-                "Authorization": header.Authorization,
+                "Authorization": header.authorization,
                 'content-type': 'application/json',
                 'client_id': header.client_id,
                 'client_secret': header.client_secret
@@ -53,31 +53,6 @@ exports.fillReceipt = function (receiptId, prescriptionId, header) {
         };
 
 
-        client.post(url, args, (data, response) => {
-            resolve(data);
-        });
-    })
-}
-
-//login from ReceiptsMedicine backend
-exports.login = function (username, password) {
-    console.log("Username", username);
-    console.log("Password", password);
-
-    if (username == null || password == null) return;
-
-    return new Promise((resolve, reject) => {
-        var url = config.receipts_backend.url + '/authenticate';
-
-        var args = {
-            data: {
-                "username": username,
-                "password": password
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
         client.post(url, args, (data, response) => {
             resolve(data);
         });

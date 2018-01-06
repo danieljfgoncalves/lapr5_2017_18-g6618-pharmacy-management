@@ -5,7 +5,6 @@ var router      = express.Router();
 
 var handleToken   = require('../middlewares/handleToken');
 var requireRoles  = require('../middlewares/requireRoles');
-var receiptsAuth  = require('../middlewares/receiptsAuthentication');
 
 var receiptsController = require('../controllers/receiptsController');
 
@@ -14,8 +13,7 @@ var receiptsController = require('../controllers/receiptsController');
 if (process.env.NODE_ENV != 'test') {
     router.use('/receipt',
         handleToken.handleToken,
-        requireRoles.requireRoles(['admin', 'pharmacist']),
-        receiptsAuth.authenticateReceiptsManagement);
+        requireRoles.requireRoles(['admin', 'pharmacist']));
 }
 
 // GET /api/receipt/{id}/
