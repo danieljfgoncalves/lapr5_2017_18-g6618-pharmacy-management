@@ -3,6 +3,8 @@
 var express = require('express');
 var router  = express.Router();
 
+var medicinesAuth = require('../middlewares/medicinesAuthentication');
+
 var restocksController = require('../controllers/restockController');
 
 
@@ -19,7 +21,7 @@ router.get('/restock/medicine/:name', restocksController.get_restock_medicine_na
 router.get('/restock/drug/:name', restocksController.get_restock_drug_name);
 
 // POST /api/restock/
-router.post('/restock', restocksController.post_restock);
+router.post('/restock', medicinesAuth.authenticateMedicinesManagement, restocksController.post_restock);
 
 
 module.exports = router;

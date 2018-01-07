@@ -20,6 +20,10 @@ exports.authenticateMedicinesManagement = (req, res, next) => {
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
+        if (body.error) {
+            return res.status(403).json({Message:"Unauthorized API Client"});
+        }
+
         req.medicinesToken = body;
         next();
     });

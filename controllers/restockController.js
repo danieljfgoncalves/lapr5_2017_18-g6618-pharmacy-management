@@ -69,8 +69,13 @@ exports.post_restock = function (req, res) {
             restock.id_pharmacy,
             restock.medicinePresentation,
             restock.quantity,
-            config.add),
+            config.add,
+            req.medicinesToken.access_token),
         function (check) {
+
+            if (check.message !== 'Stock updated!') {
+                return res.status(400).json({message:check.message});
+            }
 
             restock.save(function (err) {
                 if (err) return res.status(500).send(err);
