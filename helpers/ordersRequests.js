@@ -23,8 +23,14 @@ exports.postOrder = function (body_data) {
         request(options, function (error, response, body) {
 
             if (error) throw new Error(error);
-            var aux = JSON.parse(body);
-            resolve(aux);
+
+            if (response.statusCode >= 300) {
+                resolve({message:"couldn't send order"});
+            }
+            else {
+                resolve({message:"order sent"});
+            }
+
         });
     });
 

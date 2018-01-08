@@ -26,5 +26,5 @@ module.exports = {
         'url': 'http://lapr5-g6618-receipts-management.azurewebsites.net/api'
     },
 
-    'orders_url': 'http://lapr5-g6618-orders-management.azurewebsites.net/api/orders'
+    'orders_url': 'http://lapr5-g6618-orders-management.azurewebsites.net/api/orders/new'
 }
