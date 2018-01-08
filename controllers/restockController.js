@@ -58,17 +58,15 @@ exports.get_restock_drug_name = function (req, res) {
 
 // POST /api/restock
 exports.post_restock = function (req, res) {
-    var restock = new Restock({
+    var restock = {
         id_pharmacy: req.body.id_pharmacy,
         quantity: req.body.quantity,
         medicinePresentation: req.body.medicinePresentation
-    });
+    };
 
     Promise.join(
         update.updateStock(
-            restock.id_pharmacy,
-            restock.medicinePresentation,
-            restock.quantity,
+            restock,
             config.add,
             req.medicinesToken.access_token),
         function (check) {
@@ -77,7 +75,8 @@ exports.post_restock = function (req, res) {
                 return res.status(400).json({message:check.message});
             }
 
-            restock.save(function (err) {
+            var newRestock = new Restock(check.restock);
+            newRestock.save(function (err) {
                 if (err) return res.status(500).send(err);
                 return res.status(201).json({ message: 'Restock Created', restock });
             })

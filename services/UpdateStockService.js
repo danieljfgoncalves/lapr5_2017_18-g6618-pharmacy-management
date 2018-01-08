@@ -10,11 +10,11 @@ var math = require('mathjs');
 var postorder = require('../helpers/ordersRequests');
 var medicinesRequests = require('../helpers/medicinesRequests');
 
-exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type, medicinesToken) {
+exports.updateStock = function (restock, type, medicinesToken) {
     return new Promise((resolve, reject) => {
 
         var ret;
-        Pharmacy.findById(id_phamacy, function (err, pharmacy) {
+        Pharmacy.findById(restock.id_pharmacy, function (err, pharmacy) {
 
             if (err) {
                 ret = { message: 'ERROR: ' + err };
@@ -24,7 +24,7 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
                 ret = { message: "There aren´t registered pharmacies." };
                 resolve(ret);
             } 
-            if(quantity <= 0){
+            if(restock.quantity <= 0){
                 ret = { message: 'It was not possible finish operation! Negative quantity!' };
                 resolve(ret);
             }
@@ -32,16 +32,22 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
             var stockExists = false;
             for (let i = 0; i < pharmacy.stocks.length; i++) {
                 // verify if referenced stock is created in pharmacy and update
-                if (pharmacy.stocks[i].medicinePresentation.id_medicine == medicinePresentation.id_medicine
-                    && pharmacy.stocks[i].medicinePresentation.id_presentation == medicinePresentation.id_presentation) {
+                if (pharmacy.stocks[i].medicinePresentation.id_medicine == restock.medicinePresentation.id_medicine
+                    && pharmacy.stocks[i].medicinePresentation.id_presentation == restock.medicinePresentation.id_presentation) {
+
+                    restock.medicinePresentation.drug = pharmacy.stocks[i].medicinePresentation.drug;
+                    restock.medicinePresentation.medicine = pharmacy.stocks[i].medicinePresentation.medicine;
+                    restock.medicinePresentation.form = pharmacy.stocks[i].medicinePresentation.form;
+                    restock.medicinePresentation.concentration = pharmacy.stocks[i].medicinePresentation.concentration;
+                    restock.medicinePresentation.packageQtt = pharmacy.stocks[i].medicinePresentation.packageQtt;
 
                     var quant = parseInt(pharmacy.stocks[i].quantity);
                     var final_quant;
 
                     if (type == config.add){
-                        final_quant = math.eval(parseInt(quant) + parseInt(quantity));
+                        final_quant = math.eval(parseInt(quant) + parseInt(restock.quantity));
                     } else{
-                        final_quant = math.eval(parseInt(quant) - parseInt(quantity));
+                        final_quant = math.eval(parseInt(quant) - parseInt(restock.quantity));
                     }
                         
                     if (final_quant < 0) {
@@ -52,10 +58,10 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
                         var qtt = math.eval(parseInt(pharmacy.stocks[i].minQuantity) 
                                             * parseInt(config.multipStockFactor));
 
-                        createOrder(pharmacy, medicinePresentation, qtt);
+                        createOrder(pharmacy, restock.medicinePresentation, qtt);
                     }
-                    stockExists = true;
                     pharmacy.stocks[i].quantity = final_quant;
+                    stockExists = true;
                     break;
                 }
             }
@@ -63,17 +69,20 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
             if (stockExists) {
                 pharmacy.save(function (err) {
                     if (err) ret = { message: 'ERROR' + err };
-                    ret = { message: 'Stock updated!', pharmacy };
+                    ret = { 
+                        message: 'Stock updated!',
+                        restock: restock,
+                        pharmacy };
                     resolve(ret);
                 });
             }
             else {
-                medicinesRequests.getPresentation(medicinesToken, medicinePresentation.id_presentation)
+                medicinesRequests.getPresentation(medicinesToken, restock.medicinePresentation.id_presentation)
                 .then(presentation => {
 
                     var medicineName;
                     presentation.medicines.forEach(med => {
-                        if (med.id == medicinePresentation.id_medicine) {
+                        if (med.id == restock.medicinePresentation.id_medicine) {
                             medicineName = med.name;
                         }
                     });
@@ -84,22 +93,26 @@ exports.updateStock = function (id_phamacy, medicinePresentation, quantity, type
                     }
 
                     var stock = {
-                        quantity: quantity,
+                        quantity: restock.quantity,
                         medicinePresentation: {
                             drug: presentation.drug.name,
                             medicine: medicineName,
                             form: presentation.form,
                             concentration: presentation.concentration,
                             packageQtt: presentation.packageQuantity,
-                            id_medicine: medicinePresentation.id_medicine,
-                            id_presentation: medicinePresentation.id_presentation
+                            id_medicine: restock.medicinePresentation.id_medicine,
+                            id_presentation: restock.medicinePresentation.id_presentation
                         }
                     };
                     pharmacy.stocks.push(stock);
 
                     pharmacy.save(function (err) {
                         if (err) ret = { message: 'ERROR' + err };
-                        ret = { message: 'Stock updated!', pharmacy };
+                        ret = { 
+                            message: 'Stock updated!', 
+                            restock: stock,
+                            pharmacy 
+                        };
                         resolve(ret);
                     });
                 });
