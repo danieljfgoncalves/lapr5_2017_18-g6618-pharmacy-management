@@ -106,10 +106,17 @@ exports.post_sale = function (req, res) {
         prescription: presc,
     });
 
+    var DTO = {
+        id_pharmacy: sale.id_pharmacy,
+        quantity: sale.quantity,
+        medicinePresentation: sale.prescription.medicinePresentation
+    }
+
     //updating Stock in our API and sending Order to OrderManagement
     Promise.join(
+        
         update.updateStock(
-            sale.id_pharmacy, sale.prescription.medicinePresentation, sale.quantity, config.sub),
+            DTO, config.sub, req.medicinesToken.access_token),
         function (check) {
 
             sale.save(function (err) {
