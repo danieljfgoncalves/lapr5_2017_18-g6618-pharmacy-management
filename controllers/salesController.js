@@ -18,7 +18,7 @@ exports.get_sales = function (req, res) {
         if (err) return res.status(500).send(err);
         if (sales != undefined) return res.status(200).json(sales);
 
-         return res.status(400).send("There aren´t registered sales.");
+        return res.status(400).send("There aren´t registered sales.");
 
     });
 }
@@ -40,9 +40,9 @@ exports.get_receipt = function (req, res) {
     }, function (err, sales) {
         if (err) return res.status(500).send(err);
         if (sales != undefined) return res.status(200).json(sales);
-        
+
         return res.status(400).send("There aren´t registered sales.");
-  
+
     });
 }
 
@@ -53,9 +53,9 @@ exports.get_prescriptions = function (req, res) {
         'prescription.receiptId': req.params.id,
         'prescription.prescriptionId': req.params.idPresc
     }, function (err, sales) {
-        if (err)  return res.status(500).send(err);
+        if (err) return res.status(500).send(err);
         if (sales != undefined) return res.status(200).json(sales);
-      
+
         return res.status(400).send("There aren´t registered sales.");
     });
 }
@@ -87,12 +87,6 @@ exports.get_sale_drug_name = function (req, res) {
 // POST /api/sale
 exports.post_sale = function (req, res) {
 
-    Promise.join(
-        receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
-        function (pst) {
-            if (pst==undefined || pst==null) return res.status(500).json(pst);
-        });
-
     //creating Sale in our API
     var presc = new Prescription({
         prescriptionId: req.body.prescription.prescriptionId,
@@ -114,16 +108,24 @@ exports.post_sale = function (req, res) {
 
     //updating Stock in our API and sending Order to OrderManagement
     Promise.join(
-        
+
         update.updateStock(
-            DTO, config.sub, req.medicinesToken.access_token),
-        function (check) {
-          
-            if(check.restock==undefined )  return res.status(404).json({ message: check.message });
+            DTO, config.sub,
+            req.medicinesToken.access_token
+        ),
+        receiptClient.fillReceipt(
+            req.body.prescription.receiptId,
+            req.body.prescription.prescriptionId,
+            req.body.quantity,
+            req.headers
+        ),
+        function (pst) {
+            if (pst == undefined || pst == null) return res.status(500).json(pst);
 
             sale.save(function (err) {
                 if (err) return res.status(500).send(err);
                 return res.status(201).json({ message: 'Sale Created', sale });
             })
+
         });
 }
