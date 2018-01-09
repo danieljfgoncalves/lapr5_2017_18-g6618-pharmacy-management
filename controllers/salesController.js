@@ -110,22 +110,22 @@ exports.post_sale = function (req, res) {
     Promise.join(
 
         update.updateStock(
-            DTO, config.sub,
-            req.medicinesToken.access_token
-        ),
-        receiptClient.fillReceipt(
-            req.body.prescription.receiptId,
-            req.body.prescription.prescriptionId,
-            req.body.quantity,
-            req.headers
-        ),
-        function (pst) {
-            if (pst == undefined || pst == null) return res.status(500).json(pst);
+            DTO, config.sub, req.medicinesToken.access_token),
+        function (check) {
+
+            if (check.restock == undefined) return res.status(404).json({ message: check.message });
 
             sale.save(function (err) {
                 if (err) return res.status(500).send(err);
-                return res.status(201).json({ message: 'Sale Created', sale });
+                res.status(201).json({ message: 'Sale Created', sale });
             })
 
+
+            Promise.join(
+                receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
+                function (pst) {
+                    if (pst == undefined || pst == null) return res.status(500).json(pst);
+                    return res;
+                });
         });
 }
