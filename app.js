@@ -29,7 +29,8 @@ mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
 });
 
 // use morgan to log requests to the console
-if (app.get('env') != 'test') app.use(morgan('dev'));
+//if (app.get('env') != 'test') 
+app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

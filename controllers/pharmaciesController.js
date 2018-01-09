@@ -125,6 +125,9 @@ exports.post_pharmacy = function (req, res) {
         });
     }
 
+    if(loc.latitude>90 || loc.latitude<-90) return res.status(404).send('Please insert a valid latitude (between -90 and 90).');
+    if(loc.longitude<-180 || loc.longitude>180) return res.status(404).send('Please insert a valid longitude (between -180 and 180).');
+
     var pharmacy;
     //Each location must have just one pharmacy
     Pharmacy.find({

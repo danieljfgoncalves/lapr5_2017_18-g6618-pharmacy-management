@@ -30,11 +30,11 @@ var Restock = require('../models/Restock');
 var Sale = require('../models/Sale');
 
 
-
 describe('  ***  PHARMACY MANAGEMENT TESTS  ***  ', function () {
 
     describe('TESTING: Pharmacy', function () {
 
+        this.timeout(15000);
         var correctName = "PharmacyTest";
 
         afterEach(function (done) {
@@ -78,17 +78,98 @@ describe('  ***  PHARMACY MANAGEMENT TESTS  ***  ', function () {
                         timeRestriction: "17:00"
                     })
                     .end(function (err, res) {
-                        res.should.have.status(500);
+                         res.should.have.status(500);
                         done();
                     });
             });
 
+            it('[POST] shouldn\'t register pharmacy with invalid longitude',
+            function (done) {
+                chai.request(server)
+                    .post('/api/pharmacy')
+                    .send({
+                        name: correctName,
+                        timeRestriction: "17:00",
+                        location: locationObj.locations[1]
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(404);
+                        done();
+                    });
+            });
+
+            it('[POST] shouldn\'t register pharmacy with invalid latitude',
+            function (done) {
+                chai.request(server)
+                    .post('/api/pharmacy')
+                    .send({
+                        name: correctName,
+                        timeRestriction: "17:00",
+                        location: locationObj.locations[2]
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(404);
+                        done();
+                    });
+            });
 
     });
 
-    describe('TESTING: Sale', function () {
+    describe('TESTING: Request Medicine', function () {
+        this.timeout(15000);
+        afterEach(function (done) {
+            Sale.remove({
+                date: "2017-12-21"
+            }, done);
+        });
 
+        it('[POST] shouldn\'t register sale without medicine presentation',
+            function (done) {
+                chai.request(server)
+                    .post('/api/sale')
+                    .send({
+                        sale: saleObj.sales[7]
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(403);
+                        done();
+                    });
+            });
     });
+
+    describe('TESTING: Request Medicine', function () {
+
+
+        it('[POST] shouldn\'t register sale with negative quantity',
+            function (done) {
+                chai.request(server)
+                    .post('/api/sale')
+                    .send({
+                        sale: saleObj.sales[8]
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(403);
+                        done();
+                    });
+            });
+    
+/*
+    it('[POST] should request medicine',
+            function (done) {
+                chai.request(server)
+                    .post('/api/sale')
+                    .send({
+                       sale: saleObj.sales[0]
+                    })
+                    .end(function (err, res) {
+                        res.should.have.status(201);
+                        console.log(res);
+                     
+                        done();
+                    });
+            });
+        });
+        */
 
     describe('TESTING: Restock', function () {
 

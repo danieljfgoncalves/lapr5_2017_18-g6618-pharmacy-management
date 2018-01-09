@@ -118,6 +118,8 @@ exports.post_sale = function (req, res) {
         update.updateStock(
             DTO, config.sub, req.medicinesToken.access_token),
         function (check) {
+          
+            if(check.restock==undefined )  return res.status(404).json({ message: check.message });
 
             sale.save(function (err) {
                 if (err) return res.status(500).send(err);

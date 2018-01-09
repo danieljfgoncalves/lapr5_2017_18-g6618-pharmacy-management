@@ -20,16 +20,18 @@ exports.updateStock = function (restock, type, medicinesToken) {
                 ret = { message: 'ERROR: ' + err };
                 resolve(ret);
             }
-            if (pharmacy == undefined) {
-                ret = { message: "There aren´t registered pharmacies." };
-                resolve(ret);
-            } 
+           
             if(restock.quantity <= 0){
                 ret = { message: 'It was not possible finish operation! Negative quantity!' };
                 resolve(ret);
             }
+            if (pharmacy == undefined) {
+                ret = { message: "There isn´t a pharmacy to the given id." };
+                resolve(ret);
+            } else{
 
             var stockExists = false;
+            
             for (let i = 0; i < pharmacy.stocks.length; i++) {
                 // verify if referenced stock is created in pharmacy and update
                 if (pharmacy.stocks[i].medicinePresentation.id_medicine == restock.medicinePresentation.id_medicine
@@ -117,6 +119,7 @@ exports.updateStock = function (restock, type, medicinesToken) {
                     });
                 });
             }
+        }
 
         });
     })
