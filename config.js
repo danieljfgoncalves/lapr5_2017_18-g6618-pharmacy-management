@@ -17,14 +17,14 @@ module.exports = {
 
     'medicines_backend': {
 
-        'urlPresentations': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/',
-        'urlPresentationsDetailed': 'http://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed',
+        'urlPresentations': 'https://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/',
+        'urlPresentationsDetailed': 'https://lapr5-g6618-medicines-management.azurewebsites.net/api/presentations/detailed',
     },
 
     'receipts_backend': {
-        'urlReceipt': 'http://lapr5-g6618-receipts-management.azurewebsites.net/api/medicalReceipts/',
-        'url': 'http://lapr5-g6618-receipts-management.azurewebsites.net/api'
+        'urlReceipt': 'https://lapr5-g6618-receipts-management.azurewebsites.net/api/medicalReceipts/',
+        'url': 'https://lapr5-g6618-receipts-management.azurewebsites.net/api'
     },
 
-    'orders_url': 'http://lapr5-g6618-orders-management.azurewebsites.net/api/orders/new'
+    'orders_url': 'https://lapr5-g6618-orders-management.azurewebsites.net/api/orders/new'
 }
