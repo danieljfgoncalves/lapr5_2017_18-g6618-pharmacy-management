@@ -11,6 +11,8 @@ var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const logger = require('./logger'); // custom logger to db
+const morgan = require('morgan');
 
 // DATABASE SETUP
 var config = require('./config');
@@ -28,9 +30,10 @@ mongoose.connect(config.mongoURI[app.get('env')], mongoOptions, error => {
   }
 });
 
-// use morgan to log requests to the console
 //if (app.get('env') != 'test') 
-app.use(morgan('dev'));
+// *** LOGGING *** //
+if (app.get('env') != 'test') app.use(logger);
+if (app.get('env') == 'development') app.use(morgan('dev'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
