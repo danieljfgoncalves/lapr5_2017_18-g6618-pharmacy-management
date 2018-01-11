@@ -12,7 +12,6 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const logger = require('./logger'); // custom logger to db
-const morgan = require('morgan');
 
 // DATABASE SETUP
 var config = require('./config');
