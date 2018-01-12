@@ -1,7 +1,7 @@
 exports.locations = [
     {
-        latitude: '45',
-        longitude: '45',
+        latitude: "45",
+        longitude: "45",
     },
     {
         latitude: '-91',

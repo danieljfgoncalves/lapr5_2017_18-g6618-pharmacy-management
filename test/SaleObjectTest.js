@@ -6,7 +6,9 @@ exports.sales = [
         id_pharmacy:  pharmacy.pharmacy[0]._id,
         quantity: 1,
         prescription: prescription.prescriptions[0],
-    },
+    }
+
+    /*,
     {
         id_pharmacy:  pharmacy.pharmacy[0]._id,
         date: "2017-12-21",
@@ -54,6 +56,6 @@ exports.sales = [
         date: "2017-12-21",
         quantity: -1,
         prescription: prescription.prescriptions[2],
-    }
-];
+    }*/
 
+];

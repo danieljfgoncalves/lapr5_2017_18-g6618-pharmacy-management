@@ -4,9 +4,18 @@ var express = require('express');
 var router  = express.Router();
 
 var medicinesAuth = require('../middlewares/medicinesAuthentication');
+var requireRoles  = require('../middlewares/requireRoles');
+var handleToken   = require('../middlewares/handleToken');
 
 var restocksController = require('../controllers/restockController');
 
+if (process.env.NODE_ENV != 'test') {
+    // authentication middlewares
+    router.use('/restock',
+    handleToken.handleToken,
+    requireRoles.requireRoles(['admin', 'pharmacist'])
+    );
+}
 
 // GET /api/restock
 router.get('/restock', restocksController.get_restocks);

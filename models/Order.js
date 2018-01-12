@@ -10,11 +10,12 @@ var MedicinePresentationSchema = require('./MedicinePresentation');
 var OrderSchema = ActivityLog.extend({
     qttNeeded: {
         type: Number,
-        min: 1
+        min: 1,
+        required: true
     },
     period_day: { 
         type: String,
-        default: "morning"
+        default: "12345"
     },
     medicinePresentation: {
         type: MedicinePresentationSchema,  

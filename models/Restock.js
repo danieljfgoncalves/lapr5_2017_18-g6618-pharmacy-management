@@ -9,7 +9,8 @@ var MedicinePresentationSchema = require('./MedicinePresentation');
 var RestockSchema = ActivityLog.extend({
     quantity: {
         type: Number,
-        min: 1
+        min: 1,
+        required: true
     },
     medicinePresentation: {
         type: MedicinePresentationSchema,  

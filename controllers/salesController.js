@@ -106,26 +106,39 @@ exports.post_sale = function (req, res) {
         medicinePresentation: sale.prescription.medicinePresentation
     }
 
-    //updating Stock in our API and sending Order to OrderManagement
-    Promise.join(
+    // if testing it should not be possible connect other api's
+    if (process.env.NODE_ENV != 'test') {
 
-        update.updateStock(
-            DTO, config.sub, req.medicinesToken.access_token),
-        function (check) {
+        //updating Stock in our API and sending Order to OrderManagement
+        Promise.join(
 
-            if (check.restock == undefined) return res.status(404).json({ message: check.message });
+            update.updateStock(
+                DTO, config.sub, req.medicinesToken.access_token),
+            function (check) {
 
-            sale.save(function (err) {
-                if (err) return res.status(500).send(err);
-                res.status(201).json({ message: 'Sale Created', sale });
-            })
+                if (check.restock == undefined) return res.status(404).json({ message: check.message });
+
+                sale.save(function (err) {
+                    if (err) return res.status(500).send(err);
+                    res.status(201).json({ message: 'Sale Created', sale });
+                })
 
 
-            Promise.join(
-                receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
-                function (pst) {
-                    if (pst == undefined || pst == null) return res.status(500).json(pst);
-                    return res;
-                });
-        });
+                Promise.join(
+                    receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
+                    function (pst) {
+                        if (pst == undefined || pst == null) return res.status(500).json(pst);
+                        return res;
+                    });
+
+            });
+
+    } else {
+
+        sale.save(function (err) {
+            if (err) return res.status(500).send(err);
+            res.status(201).json({ message: 'Sale Created', sale });
+        })
+        
+    }
 }

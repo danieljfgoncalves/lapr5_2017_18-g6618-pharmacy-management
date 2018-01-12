@@ -4,10 +4,18 @@ var express     = require('express');
 var router      = express.Router();
 
 var medicinesAuth = require('../middlewares/medicinesAuthentication');
+var requireRoles  = require('../middlewares/requireRoles');
+var handleToken   = require('../middlewares/handleToken');
 
 var salesController = require('../controllers/salesController');
 
-
+if (process.env.NODE_ENV != 'test') {
+    // authentication middlewares
+    router.use('/sale',
+    handleToken.handleToken,
+    requireRoles.requireRoles(['admin', 'pharmacist'])
+    );
+}
 
 // GET /api/sale
 router.get('/sale', salesController.get_sales);

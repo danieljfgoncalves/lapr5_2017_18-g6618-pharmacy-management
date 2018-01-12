@@ -58,11 +58,15 @@ exports.get_restock_drug_name = function (req, res) {
 
 // POST /api/restock
 exports.post_restock = function (req, res) {
-    var restock = {
+
+    var restock = new Restock({
         id_pharmacy: req.body.id_pharmacy,
         quantity: req.body.quantity,
         medicinePresentation: req.body.medicinePresentation
-    };
+    });
+
+    // if testing it should not be possible connect other api's
+    if (process.env.NODE_ENV != 'test') {
 
     Promise.join(
         update.updateStock(
@@ -82,5 +86,14 @@ exports.post_restock = function (req, res) {
             })
 
         });
+
+    } else {
+
+        restock.save(function (err) {
+            if (err) return res.status(500).send(err);
+            res.status(201).json({ message: 'Restock Created', restock });
+        })
+        
+    }
 
 }

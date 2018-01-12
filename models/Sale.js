@@ -9,7 +9,8 @@ var PrescriptionSchema = require('./Prescription');
 var SaleSchema = ActivityLog.extend({
     quantity: {
         type: Number,
-        min: 1
+        min: 1,
+        required: true
     },
     prescription: {
         type: PrescriptionSchema,
