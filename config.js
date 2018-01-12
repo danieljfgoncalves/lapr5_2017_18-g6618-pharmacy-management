@@ -6,9 +6,8 @@ module.exports = {
 
     'mongoURI': {
         'production': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5-6618-pharmacy-management',
-        // 'development': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5_pharmacies_g6618',
         'development': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5-6618-pharmacy-management',
-        'test': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5_pharmacies_g6618',
+        'test': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5-6618-test-pharmacy-management',
     },
     'logger': {
         'db': 'mongodb://admin:admin@ds141796.mlab.com:41796/lapr5-6618-system-logging',
