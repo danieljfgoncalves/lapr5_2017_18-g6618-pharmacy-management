@@ -65,6 +65,8 @@ exports.post_restock = function (req, res) {
         medicinePresentation: req.body.medicinePresentation
     });
 
+    var newRestock = restock;
+
     // if testing it should not be possible connect other api's
     if (process.env.NODE_ENV != 'test') {
 
@@ -79,9 +81,9 @@ exports.post_restock = function (req, res) {
                 return res.status(400).json({message:check.message});
             }
 
-            restock.save(function (err) {
+            newRestock.save(function (err) {
                 if (err) return res.status(500).send(err);
-                return res.status(201).json({ message: 'Restock Created', restock });
+                return res.status(201).json({ message: 'Restock Created', newRestock });
             })
 
         });
