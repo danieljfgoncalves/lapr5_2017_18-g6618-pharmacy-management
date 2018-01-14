@@ -124,29 +124,52 @@ exports.post_pharmacy = function (req, res) {
             longitude: longitude
         });
     }
-
     if(loc.latitude>90 || loc.latitude<-90) return res.status(404).send('Please insert a valid latitude (between -90 and 90).');
     if(loc.longitude<-180 || loc.longitude>180) return res.status(404).send('Please insert a valid longitude (between -180 and 180).');
 
-    var pharmacy;
-    //Each location must have just one pharmacy
-    Pharmacy.find({
-        'location.latitude': loc.latitude,
-        'location.longitude':loc.longitude
-    }, function (err, finded) {
-        if (err) return res.status(500).send(err);
-        if (finded.length!=0) return res.status(404).send('There is already a pharmacy in inserted location.');
-
-        pharmacy = new Pharmacy({
-            location: loc,
-            name: req.body.name,
-            timeRestriction: req.body.timeRestriction,
-        });
-
-        pharmacy.save(function (err2) {
-            if(err2) return res.status(500).send(err2);
-
-            return res.status(201).send(pharmacy);
-         });
-        });
+    Pharmacy.create({
+        location: loc,
+        name: req.body.name,
+        timeRestriction: req.body.timeRestriction,
+    }, function (err, pharm) {
+        if (err) return res.status(500).json(err);
+        // saved!
+        return res.status(201).send(pharm);
+    });
 }
+
+// POST /api/pharmacy/all
+exports.post_pharmacys = function (req, res) {
+
+    var pharms = [];
+    async.each(req.body, (bodyElement, callback) => {
+        //finding location variables
+        Location: loc = bodyElement.location;
+
+        if (loc == undefined) {
+            var latitude = bodyElement.latitude;
+            var longitude = bodyElement.longitude;
+            loc = new Location({
+                latitude: latitude,
+                longitude: longitude
+            });
+        }
+        if (loc.latitude > 90 || loc.latitude < -90) return res.status(404).send('Please insert a valid latitude (between -90 and 90).');
+        if (loc.longitude < -180 || loc.longitude > 180) return res.status(404).send('Please insert a valid longitude (between -180 and 180).');
+
+        Pharmacy.create({
+            location: loc,
+            name: bodyElement.name,
+            timeRestriction: bodyElement.timeRestriction,
+        }, function (err, pharm) {
+            if (err) return res.status(500).json(err);
+            // saved!
+            pharms.push(pharm);
+            callback();
+        });
+    }, function (err) {
+        // if any of the file processing produced an error, err would equal that error
+        if (err) return res.status(500).json(err);
+        return res.status(201).send(pharms);
+    });
+};

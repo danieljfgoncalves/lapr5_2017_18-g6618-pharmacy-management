@@ -29,7 +29,7 @@ StockShema.path('medicinePresentation').validate(medicinePresentation => {
 var PharmacySchema = mongoose.Schema({
     name: { type: String,
         required: true},
-    location: { type: LocationSchema, ref: 'Location', required: true },
+    location: { type: LocationSchema, ref: 'Location', unique:true, required: true },
     timeRestriction: String,
     stocks: [{
         type: StockShema

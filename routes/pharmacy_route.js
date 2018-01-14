@@ -42,5 +42,8 @@ router.get('/pharmacy/:id/restock', pharmaciesController.get_pharmacy_restocks);
 // POST /api/pharmacy
 router.post('/pharmacy', pharmaciesController.post_pharmacy);
 
+// POST /api/pharmacy
+router.post('/pharmacy/all', pharmaciesController.post_pharmacys);
+
 
 module.exports = router;
