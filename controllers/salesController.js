@@ -118,11 +118,11 @@ exports.post_sale = function (req, res) {
 
                 if (check.restock == undefined) return res.status(404).json({ message: check.message });
 
+                sale.prescription = check.restock.medicinePresentation;
                 sale.save(function (err) {
                     if (err) return res.status(500).send(err);
                     res.status(201).json({ message: 'Sale Created', sale });
                 })
-
 
                 Promise.join(
                     receiptClient.fillReceipt(req.body.prescription.receiptId, req.body.prescription.prescriptionId, req.body.quantity, req.headers),
