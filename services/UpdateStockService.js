@@ -81,7 +81,7 @@ exports.updateStock = function (restock, type, medicinesToken) {
                     });
                 }
                 else {
-                    if (config.add) {
+                    if (type == config.sub) {
                         ret = {
                             message: 'This medicine don´t exist in this Pharmacy',
                         };
