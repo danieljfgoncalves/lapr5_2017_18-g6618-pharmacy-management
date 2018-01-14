@@ -79,10 +79,9 @@ exports.post_restock = function (req, res) {
                 return res.status(400).json({message:check.message});
             }
 
-            var newRestock = new Restock(check.restock);
-            newRestock.save(function (err) {
+            restock.save(function (err) {
                 if (err) return res.status(500).send(err);
-                return res.status(201).json({ message: 'Restock Created', newRestock });
+                return res.status(201).json({ message: 'Restock Created', restock });
             })
 
         });
